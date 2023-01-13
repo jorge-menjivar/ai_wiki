@@ -1,0 +1,11 @@
+.env*
+.env.*
+test*
+test.*
+*/__pycache__
+__pycache__
+.vscode
+
+assets/index-*
+manifest.json
+index.html

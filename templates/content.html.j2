@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <title>{{ title|safe }}</title>
+    <link href="{{ url_for('static', path='/styles/article.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="boss_nav" style="top: -1px">
+        <li class="boss_nav_list">
+            <div>
+                <a href="/" class="boss_nav_link">
+                    <div class="boss_nav_link_title">Home</div>
+                </a>
+                <div class="boss_nav_title">{{ ui_title|safe }}</div>
+            </div>
+        </li>
+    </div>
+    <div class="content">
+        {{ content|safe }}
+    </div>
+</body>
+
+</html>
