@@ -1,0 +1,46 @@
+.navbar {
+  display: inline;
+  font-size: 88%;
+  font-weight: normal;
+}
+.navbar-collapse {
+  float: left;
+  text-align: left;
+}
+.navbar-boxtext {
+  word-spacing: 0;
+}
+.navbar ul {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: inherit;
+}
+.navbar-brackets::before {
+  margin-right: -0.125em;
+  content: "[ ";
+}
+.navbar-brackets::after {
+  margin-left: -0.125em;
+  content: " ]";
+}
+.navbar li {
+  word-spacing: -0.125em;
+}
+.navbar a > span,
+.navbar a > abbr {
+  text-decoration: inherit;
+}
+.navbar-mini abbr {
+  font-variant: small-caps;
+  border-bottom: none;
+  text-decoration: none;
+  cursor: inherit;
+}
+.navbar-ct-full {
+  font-size: 114%;
+  margin: 0 7em;
+}
+.navbar-ct-mini {
+  font-size: 114%;
+  margin: 0 4em;
+}

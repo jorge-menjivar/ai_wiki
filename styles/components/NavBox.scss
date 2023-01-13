@@ -1,0 +1,86 @@
+.navbox {
+  box-sizing: border-box;
+  border: 1px solid var(--nav-box-border-color);
+  width: 100%;
+  clear: both;
+  font-size: 88%;
+  text-align: center;
+  padding: 1px;
+  margin: 1em auto 0;
+}
+.navbox .navbox {
+  margin-top: 0;
+}
+.navbox + .navbox,
+.navbox + .navbox-styles + .navbox {
+  margin-top: -1px;
+}
+.navbox-inner,
+.navbox-subgroup {
+  width: 100%;
+}
+.navbox-group,
+.navbox-title,
+.navbox-abovebelow {
+  padding: 0.25em 1em;
+  line-height: 1.5em;
+  text-align: center;
+}
+.navbox-group {
+  white-space: nowrap;
+  text-align: right;
+}
+.navbox,
+.navbox-subgroup {
+  background-color: var(--nav-box-bg1-color);
+}
+.navbox-list {
+  line-height: 1.5em;
+  border-color: var(--nav-box-bg1-color);
+}
+.navbox-list-with-group {
+  text-align: left;
+  border-left-width: 2px;
+  border-left-style: solid;
+}
+tr + tr > .navbox-abovebelow,
+tr + tr > .navbox-group,
+tr + tr > .navbox-image,
+tr + tr > .navbox-list {
+  border-top: 2px solid var(--nav-box-bg1-color);
+}
+.navbox-title {
+  background-color: var(--nav-box-title-bg-color);
+}
+.navbox-abovebelow,
+.navbox-group,
+.navbox-subgroup .navbox-title {
+  background-color: var(--nav-box-group-bg-color);
+}
+.navbox-subgroup .navbox-group,
+.navbox-subgroup .navbox-abovebelow {
+  background-color: var(--nav-box-subgroup-bg-color);
+}
+.navbox-even {
+  background-color: var(--nav-box-bg2-color);
+}
+.navbox-odd {
+  background-color: transparent;
+}
+.navbox .hlist td dl,
+.navbox .hlist td ol,
+.navbox .hlist td ul,
+.navbox td.hlist dl,
+.navbox td.hlist ol,
+.navbox td.hlist ul {
+  padding: 0.125em 0;
+}
+.navbox .navbar {
+  display: block;
+  font-size: 100%;
+}
+.navbox-title .navbar {
+  float: left;
+  text-align: left;
+  margin-right: 0.5em;
+}

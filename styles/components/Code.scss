@@ -1,0 +1,115 @@
+pre {
+  border-radius: 4px;
+  line-height: 125%;
+  padding: 1px 4px;
+  // margin: 6px;
+  // overflow: scroll;
+}
+
+pre,
+code,
+tt,
+kbd,
+samp,
+.mw-code {
+  font-family: monospace, monospace;
+}
+
+pre,
+code,
+.mw-code {
+  background-color: var(--code-bg-color);
+  color: var(--code-color);
+  border: 1px solid var(--code-border-color);
+}
+
+code {
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+pre,
+.mw-code {
+  padding: 1em;
+  white-space: pre-wrap;
+  overflow-x: hidden;
+  word-wrap: break-word;
+}
+
+.mw-highlight pre {
+  -moz-tab-size: 4;
+  tab-size: 4;
+  position: relative;
+}
+
+code code.mw-highlight {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+}
+
+div.mw-highlight {
+  background-color: inherit;
+}
+
+.mw-highlight .err {
+  border: 0;
+}
+
+.mw-highlight .hll {
+  display: block;
+}
+
+.mw-content-ltr.mw-highlight-lines pre,
+.mw-content-ltr.content .mw-highlight-lines pre {
+  padding-left: 3.5em;
+  box-shadow: inset 2.75em 0 0 var(--code-line-numbers-bg-color);
+}
+
+.mw-content-ltr.mw-highlight-lines pre .hll,
+.mw-content-ltr.content .mw-highlight-lines pre .hll {
+  margin-left: -3.5em;
+  padding-left: 3.5em;
+}
+
+.mw-content-rtl.mw-highlight-lines pre,
+.mw-content-rtl.content .mw-highlight-lines pre {
+  padding-right: 3.5em;
+  box-shadow: inset -2.75em 0 0 var(--code-line-numbers-bg-color);
+}
+
+.mw-content-rtl.mw-highlight-lines pre .hll,
+.mw-content-rtl.content .mw-highlight-lines pre .hll {
+  margin-right: -3.5em;
+  padding-right: 3.5em;
+}
+
+.mw-highlight .linenos {
+  position: absolute;
+  box-sizing: border-box;
+  width: 2.75em;
+  background: none;
+  color: #7d7272;
+  white-space: pre;
+}
+
+.mw-content-ltr.mw-highlight .linenos {
+  left: 0;
+  text-align: right;
+  margin-right: 4px;
+}
+
+.mw-content-rtl.mw-highlight .linenos {
+  right: 0;
+  text-align: left;
+  margin-left: 4px;
+}
+
+.mw-highlight .linenos:before {
+  content: attr(data-line);
+}
+
+.mw-highlight a:hover .linenos,
+.mw-highlight .hll a .linenos {
+  color: #333;
+}

@@ -1,0 +1,112 @@
+.sidebar {
+  background-color: var(--side-bar-bg-color);
+  border: 1px solid var(--side-bar-border-color);
+  border-radius: 12px;
+  color: var(--side-bar-color);
+  clear: right;
+  float: right;
+  margin: 0.5em 0 1em 1em;
+  padding: 0.2em;
+  text-align: center;
+  line-height: 1.4em;
+  font-size: 88%;
+  display: table;
+  width: 22em;
+}
+body.skin-minerva .sidebar {
+  display: table !important;
+  float: right !important;
+  margin: 0.5em 0 1em 1em !important;
+}
+.sidebar-subgroup {
+  width: 100%;
+  margin: 0;
+  border-spacing: 0;
+}
+.sidebar-left {
+  float: left;
+  clear: left;
+  margin: 0.5em 1em 1em 0;
+}
+.sidebar-none {
+  float: none;
+  clear: both;
+  margin: 0.5em 1em 1em 0;
+}
+.sidebar-outer-title {
+  padding: 0 0.4em 0.2em;
+  font-size: 125%;
+  line-height: 1.2em;
+  font-weight: bold;
+}
+.sidebar-top-image {
+  padding: 0.4em;
+}
+.sidebar-top-caption,
+.sidebar-pretitle-with-top-image,
+.sidebar-caption {
+  padding: 0.2em 0.4em 0;
+  line-height: 1.2em;
+}
+.sidebar-pretitle {
+  padding: 0.4em 0.4em 0;
+  line-height: 1.2em;
+}
+.sidebar-title,
+.sidebar-title-with-pretitle {
+  padding: 0.2em 0.8em;
+  font-size: 145%;
+  line-height: 1.2em;
+}
+.sidebar-title-with-pretitle {
+  padding: 0.1em 0.4em;
+}
+.sidebar-image {
+  padding: 0.2em 0.4em 0.4em;
+}
+.sidebar-heading {
+  padding: 0.1em 0.4em;
+}
+.sidebar-content {
+  padding: 0 0.5em 0.4em;
+}
+.sidebar-content-with-subgroup {
+  padding: 0.1em 0.4em 0.2em;
+}
+.sidebar-above,
+.sidebar-below {
+  padding: 0.3em 0.8em;
+  font-weight: bold;
+}
+.sidebar-collapse .sidebar-above,
+.sidebar-collapse .sidebar-below {
+  border-top: 1px solid var(--side-bar-border-color);
+  border-bottom: 1px solid var(--side-bar-border-color);
+  color: var(--side-bar-color);
+}
+.sidebar-navbar {
+  text-align: right;
+  font-size: 115%;
+  padding: 0 0.4em 0.4em;
+}
+.sidebar-list-title {
+  padding: 0 0.4em;
+  text-align: left;
+  font-weight: bold;
+  line-height: 1.6em;
+  font-size: 105%;
+}
+.sidebar-list-title-c {
+  padding: 0 0.4em;
+  text-align: center;
+  margin: 0 3.3em;
+}
+@media (max-width: 720px) {
+  body.mediawiki .sidebar {
+    width: 100% !important;
+    clear: both;
+    float: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}

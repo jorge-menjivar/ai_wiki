@@ -1,0 +1,75 @@
+.ambox {
+  border: 1px solid var(--am-box-border-color);
+  border-left: 10px solid #36c;
+  border-radius: 8px;
+  background-color: var(--am-box-bg-color);
+  box-sizing: border-box;
+  color: var(--am-box-color);
+  margin-bottom: 12px;
+}
+.ambox + link + .ambox,
+.ambox + link + style + .ambox,
+.ambox + link + link + .ambox,
+.ambox + .mw-empty-elt + link + .ambox,
+.ambox + .mw-empty-elt + link + style + .ambox,
+.ambox + .mw-empty-elt + link + link + .ambox {
+  margin-top: -1px;
+}
+html body.mediawiki .ambox.mbox-small-left {
+  margin: 4px 1em 4px 0;
+  overflow: hidden;
+  width: 238px;
+  border-collapse: collapse;
+  font-size: 88%;
+  line-height: 1.25em;
+}
+.ambox-speedy {
+  border-left: 10px solid #b32424;
+  background-color: #fee7e6;
+}
+.ambox-delete {
+  border-left: 10px solid #b32424;
+}
+.ambox-content {
+  border-left: 10px solid #f28500;
+}
+.ambox-style {
+  border-left: 10px solid #fc3;
+}
+.ambox-move {
+  border-left: 10px solid #9932cc;
+}
+.ambox-protection {
+  border-left: 10px solid #a2a9b1;
+}
+.ambox .mbox-text {
+  border: none;
+  padding: 0.25em 0.5em;
+  width: 100%;
+}
+.ambox .mbox-image {
+  border: none;
+  padding: 2px 0 2px 0.5em;
+  text-align: center;
+}
+.ambox .mbox-imageright {
+  border: none;
+  padding: 2px 0.5em 2px 0;
+  text-align: center;
+}
+.ambox .mbox-empty-cell {
+  border: none;
+  padding: 0;
+  width: 1px;
+}
+.ambox .mbox-image-div {
+  width: 52px;
+}
+html.client-js body.skin-minerva .mbox-text-span {
+  margin-left: 23px !important;
+}
+@media (min-width: 720px) {
+  .ambox {
+    margin: 0 10% 2em 10%;
+  }
+}

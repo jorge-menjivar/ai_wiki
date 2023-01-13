@@ -1,0 +1,141 @@
+@use "../animations/BossNav.scss" as animations;
+
+.boss_nav_base_styles {
+  all: unset;
+  font-size: 15px;
+  line-height: 1em;
+  outline: none;
+  padding: 8px 10px;
+  user-select: none;
+}
+
+.boss_nav {
+  display: flex;
+  justify-content: center;
+  padding-top: 0;
+  padding-bottom: 12px;
+  position: fixed;
+  top: 0;
+  transition: top 0.4s;
+  width: 100%;
+  z-index: 1000;
+}
+
+.boss_nav_list {
+  all: unset;
+  background-color: var(--boss-nav-bg-color);
+  box-shadow: 0 2px 10px var(--box-shadow);
+  border-radius: 0;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.boss_nav_link {
+  @extend .boss_nav_base_styles;
+  align-items: center;
+  all: unset;
+  border-radius: 100px;
+  color: var(--boss-nav-link-color);
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  gap: 2px;
+  line-height: 1em;
+  padding: 8px 10px;
+
+  &:focus {
+    cursor: pointer;
+    background: var(--boss-nav-hover-color);
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: var(--boss-nav-hover-color);
+  }
+}
+
+.boss_nav_title {
+  @extend .boss_nav_base_styles;
+  align-items: center;
+  all: unset;
+  border-radius: 100px;
+  color: var(--boss-nav-color);
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  gap: 2px;
+  line-height: 1em;
+  padding: 8px 10px;
+}
+
+.boss_nav_item {
+  @extend .boss_nav_base_styles;
+}
+
+.boss_nav_image_button_img {
+  align-self: center;
+  all: unset;
+  padding: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  margin: 0;
+  display: grid;
+  position: relative;
+  overflow: visible;
+  height: 1.25em;
+
+  &:focus {
+    position: relative;
+  }
+
+  @media (max-width: 900px) {
+    height: 1.15em;
+  }
+}
+
+.boss_nav_logo_img {
+  align-self: center;
+  all: unset;
+  border-radius: 0;
+  display: grid;
+  height: 1.25em;
+  padding: 8px;
+  margin-bottom: 0;
+  margin: 0;
+  overflow: visible;
+  height: 1.25em;
+
+  &:focus {
+    position: relative;
+  }
+
+  @media (max-width: 900px) {
+    height: 1.15em;
+  }
+}
+
+.boss_nav_link_title {
+  all: unset;
+  color: var(--boss-nav-color);
+  display: block;
+}
+
+.boss_nav_caret_icon {
+  all: unset;
+  color: var(--caret);
+  position: relative;
+  top: 1;
+
+  [data-state="open"] & {
+    transform: rotate(-180deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform 250ms ease;
+  }
+}

@@ -1,0 +1,204 @@
+@use "FigureCaption.scss";
+
+figure[typeof~="mw:File"],
+figure[typeof~="mw:File/Frameless"] {
+  margin: 0;
+}
+
+.mw-body-content figure[typeof~="mw:File"] > a,
+.mw-body-content figure[typeof~="mw:File/Frameless"] > a {
+  border: 0;
+}
+
+figure[typeof~="mw:File"].mw-halign-right,
+figure[typeof~="mw:File/Frameless"].mw-halign-right {
+  margin: 0 0 0.5em 0.5em;
+  clear: right;
+  float: right;
+}
+
+figure[typeof~="mw:File"].mw-halign-left,
+figure[typeof~="mw:File/Frameless"].mw-halign-left {
+  margin: 0 0.5em 0.5em 0;
+  clear: left;
+  float: left;
+}
+
+figure[typeof~="mw:File"].mw-halign-none,
+figure[typeof~="mw:File/Frameless"].mw-halign-none {
+  clear: none;
+  float: none;
+}
+
+figure[typeof~="mw:File"].mw-halign-center,
+figure[typeof~="mw:File/Frameless"].mw-halign-center {
+  margin: 0 auto;
+  display: table;
+  clear: none;
+  float: none;
+}
+
+figure[typeof~="mw:File/Thumb"],
+figure[typeof~="mw:File/Frame"] {
+  margin: 0;
+  margin-bottom: 0.5em;
+  display: table;
+  text-align: center;
+  line-height: 0;
+}
+
+figure[typeof~="mw:File"],
+figure[typeof~="mw:File/Frameless"] {
+  margin: 0;
+}
+
+.mw-body-content figure[typeof~="mw:File"] > a,
+.mw-body-content figure[typeof~="mw:File/Frameless"] > a {
+  border: 0;
+}
+
+figure[typeof~="mw:File"].mw-halign-right,
+figure[typeof~="mw:File/Frameless"].mw-halign-right {
+  margin: 0 0 0.5em 0.5em;
+  clear: right;
+  float: right;
+}
+
+figure[typeof~="mw:File"].mw-halign-left,
+figure[typeof~="mw:File/Frameless"].mw-halign-left {
+  margin: 0 0.5em 0.5em 0;
+  clear: left;
+  float: left;
+}
+
+figure[typeof~="mw:File"].mw-halign-none,
+figure[typeof~="mw:File/Frameless"].mw-halign-none {
+  clear: none;
+  float: none;
+}
+
+.mw-body-content figure[typeof~="mw:File/Thumb"] > a,
+.mw-body-content figure[typeof~="mw:File/Frame"] > a {
+  border: 0;
+}
+
+.mw-content-ltr figure[typeof~="mw:File/Thumb"],
+.mw-content-ltr figure[typeof~="mw:File/Frame"] {
+  margin: 0.5em 0 1.3em 1.4em;
+  clear: right;
+  float: right;
+}
+
+.mw-content-rtl figure[typeof~="mw:File/Thumb"],
+.mw-content-rtl figure[typeof~="mw:File/Frame"] {
+  margin: 0.5em 1.4em 1.3em 0;
+  clear: left;
+  float: left;
+}
+
+figure[typeof~="mw:File/Thumb"].mw-halign-right,
+figure[typeof~="mw:File/Frame"].mw-halign-right {
+  margin: 0.5em 0 1.3em 1.4em;
+  clear: right;
+  float: right;
+}
+
+figure[typeof~="mw:File/Thumb"].mw-halign-left,
+figure[typeof~="mw:File/Frame"].mw-halign-left {
+  margin: 0.5em 1.4em 1.3em 0;
+  clear: left;
+  float: left;
+}
+
+figure[typeof~="mw:File/Thumb"].mw-halign-none,
+figure[typeof~="mw:File/Frame"].mw-halign-none {
+  margin: 0;
+  margin-bottom: 0.5em;
+  clear: none;
+  float: none;
+}
+
+figure[typeof~="mw:File/Thumb"].mw-halign-center,
+figure[typeof~="mw:File/Frame"].mw-halign-center {
+  margin: 0 auto 0.5em auto;
+  clear: none;
+  float: none;
+}
+
+figure[typeof~="mw:File/Thumb"] > a:first-child > *:first-child,
+figure[typeof~="mw:File/Frame"] > a:first-child > *:first-child,
+figure[typeof~="mw:File/Thumb"] > span:first-child > *:first-child,
+figure[typeof~="mw:File/Frame"] > span:first-child > *:first-child {
+  margin: 3px;
+}
+
+figure[typeof~="mw:File/Thumb"] > a:first-child > span.mw-broken-media,
+figure[typeof~="mw:File/Frame"] > a:first-child > span.mw-broken-media,
+figure[typeof~="mw:File/Thumb"] > span:first-child > span.mw-broken-media,
+figure[typeof~="mw:File/Frame"] > span:first-child > span.mw-broken-media {
+  display: inline-block;
+  line-height: 1.6em;
+  margin: 3px 4px;
+  width: 180px;
+  font-size: 94%;
+}
+
+figure[typeof~="mw:File/Thumb"],
+figure[typeof~="mw:File/Frame"] {
+  border: 1px solid var(--figure-frame-border-color);
+  border-bottom: 0;
+  background: var(--figure-frame-bg-color);
+}
+
+figure[typeof~="mw:File/Thumb"]
+  > a:first-child
+  > *:first-child:not(.mw-broken-media),
+figure[typeof~="mw:File/Frame"]
+  > a:first-child
+  > *:first-child:not(.mw-broken-media),
+figure[typeof~="mw:File/Thumb"]
+  > span:first-child
+  > *:first-child:not(.mw-broken-media),
+figure[typeof~="mw:File/Frame"]
+  > span:first-child
+  > *:first-child:not(.mw-broken-media) {
+  border: 1px solid var(--figure-frame-border-color);
+  background: var(--figure-bg-color);
+}
+
+.mw-image-border > a:first-child > *:first-child:not(.mw-broken-media),
+.mw-image-border > span:first-child > *:first-child:not(.mw-broken-media) {
+  border: 1px solid #eaecf0;
+}
+
+figure[typeof~="mw:File/Thumb"]:not([typeof~="mw:Error"]) > a {
+  display: inline-block;
+  position: relative;
+}
+
+figure[typeof~="mw:File/Thumb"]:not([typeof~="mw:Error"]) > a:after {
+  content: "";
+  width: 15px;
+  height: 11px;
+  position: absolute;
+  bottom: -11px;
+}
+
+.mw-content-ltr
+  figure[typeof~="mw:File/Thumb"]:not([typeof~="mw:Error"])
+  > a:after {
+  right: 6px;
+  background-image: url(/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.svg?8330e);
+}
+
+.mw-content-rtl
+  figure[typeof~="mw:File/Thumb"]:not([typeof~="mw:Error"])
+  > a:after {
+  left: 6px;
+  background-image: url(/w/resources/src/mediawiki.skinning/images/magnify-clip-rtl.svg?38fd5);
+}
+
+img,
+figure {
+  page-break-inside: avoid;
+}
