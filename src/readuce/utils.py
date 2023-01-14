@@ -20,3 +20,7 @@ def removeAsterisks(title: str | None):
         title = title.replace("*", "")
         print(f'new title: {title}')
         return title
+
+
+def removeUnderscores(text: str):
+    return text.replace('_', ' ')

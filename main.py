@@ -4,18 +4,23 @@ import psycopg
 import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pipeline import PipelineCloud
 from urllib.parse import quote
 from settings import get_settings
-from src.readuce.ai_tools import addAiSummary, summaryPrompt
+from src.readuce.overview import addAIOverview
+# from src.readuce.sections import addAISections
+from src.readuce.sub_sections import addAISubSections
 from src.security.leaky_bucket import makeRequest
-from src.mystic.nlp import gpt3_j
 from src.wikipedia import data
 
 settings = get_settings()
+
+f = open("manifest.json")
+vite_manifest = json.load(f)
+
 app = FastAPI(root_path="/")
 
 origins = [
@@ -51,29 +56,34 @@ openai.api_key = settings.openai_api_key
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    f = open("manifest.json")
-    m = json.load(f)
     return templates.TemplateResponse(
-        "index.html.j2",
+        # "index.html.j2",
+        # {
+        #     "request": request,
+        #     "stylesheet": vite_manifest["index.css"].file,
+        #     "main": vite_manifest["index.js"].file,
+        # }
+
+        "index.dev.html.j2",
         {
             "request": request,
-            "stylesheet": m["index.css"].file,
-            "main": m["index.js"].file,
         }
     )
 
 
 @app.get("/wiki/{level}/{title:path}", response_class=HTMLResponse)
 async def wiki(request: Request):
-    f = open("manifest.json")
-    m = json.load(f)
-    print(m["index.css"])
     return templates.TemplateResponse(
-        "index.html.j2",
+        # "index.html.j2",
+        # {
+        #     "request": request,
+        #     "stylesheet": vite_manifest["index.css"]["file"],
+        #     "main": vite_manifest["index.html"]["file"],
+        # }
+
+        "index.dev.html.j2",
         {
             "request": request,
-            "stylesheet": m["index.css"]["file"],
-            "main": m["index.html"]["file"],
         }
     )
 
@@ -89,7 +99,8 @@ async def render_page(request: Request, level: int, title: str):
 
     if makeRequest(conn, ip, 1):
         soup = data.getArticleSoup(title, level)
-        addAiSummary(conn, soup, level, title)
+        addAISubSections(conn, soup, level, title)
+        addAIOverview(conn, soup, level, title)
 
         if soup.body is not None:
             return soup.body.prettify()
@@ -127,22 +138,6 @@ async def render_mobile(request: Request, title: str):
 async def stylesheet(request: Request, res_path: str):
     res = data.getResource(res_path)
     return res
-
-
-@app.get("/summary/{title}/", response_class=PlainTextResponse)
-async def infer(request: Request, title: str, level: int = 3):
-
-    title = title.replace("_", " ")
-
-    prompt = summaryPrompt(level, title)
-
-    if prompt is None:
-        return
-
-    print(f"The final prompt is:\n\n {prompt}")
-    data = gpt3_j.infer(api, prompt)
-
-    return data
 
 
 if __name__ == "__main__":

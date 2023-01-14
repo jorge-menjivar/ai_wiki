@@ -38,8 +38,6 @@ def getContent(conn: Connection, level: int, title: str, section: str):
         if fetch[0] is not None:
             content = fetch[1]
 
-    print(f"Content fetched: {content}")
-
     return content
 
 
@@ -47,7 +45,7 @@ def updateContent(
     conn: Connection,
     level: int,
     title: str,
-    section_name: str,
+    section: str,
     content: str
 ):
 
@@ -59,7 +57,7 @@ def updateContent(
         '''
     ).format(
         table=sql.Identifier(__getLevelString(level), title),
-        section_name=section_name,
+        section=section,
         content=content
     ))
 
@@ -70,7 +68,7 @@ def addContent(
     conn: Connection,
     level: int,
     title: str,
-    section_name: str,
+    section: str,
     content: str
 ):
 
@@ -78,11 +76,11 @@ def addContent(
     conn.execute(sql.SQL(
         '''
         INSERT INTO {table} (section, content)
-        VALUES ({section_name}, {content})
+        VALUES ({section}, {content})
         '''
     ).format(
         table=sql.Identifier(__getLevelString(level), title),
-        section_name=section_name,
+        section=section,
         content=content
     ))
 
