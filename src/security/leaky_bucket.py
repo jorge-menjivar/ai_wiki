@@ -41,8 +41,7 @@ def getTokenCount(conn: Connection, ip: str):
     fetch = cursor.fetchone()
 
     if fetch is not None:
-        if fetch[0] is not None:
-            requests = fetch[0]
+        requests = fetch.sum
     print(f"Requests in last {TIME_WINDOW // 60} minutes: {requests}")
 
     remaining = TOKEN_LIMIT - requests

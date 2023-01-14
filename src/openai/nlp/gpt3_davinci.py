@@ -5,6 +5,7 @@ settings = get_settings()
 
 
 def infer(text: str):
+
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=text,
@@ -15,4 +16,6 @@ def infer(text: str):
         presence_penalty=0,
     )
 
-    return response.choices[0].text  # type: ignore
+    content: str = response.choices[0].text  # type: ignore
+    model: str = f'gpt3-{response.model}'  # type: ignore
+    return content, model

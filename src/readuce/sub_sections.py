@@ -19,9 +19,10 @@ def addAISubSections(
             print(ss_tag)
             id = ss_tag['id']
 
-            content = db.getContent(conn, level, title, section=id)
+            row = db.getContentRow(conn, level, title, section=id)
 
-            if content is None:
+            content: str = ""
+            if row is None:
                 pretty_title = ""
                 if soup.title is None or soup.title.string is None:
                     return soup
@@ -34,14 +35,19 @@ def addAISubSections(
                 if prompt is None:
                     return
 
-                content = gpt3_davinci.infer(prompt)
+                content, model = gpt3_davinci.infer(prompt)
+
                 db.addContent(
                     conn,
                     level,
                     title,
                     section=id,
-                    content=content
+                    content=content,
+                    model=model
                 )
+
+            else:
+                content = row.content
 
             tag = BeautifulSoup(
                 f"{ss_tag}<div class='ai_sub_section'><p>{content}</p></div>",
@@ -49,8 +55,6 @@ def addAISubSections(
             )
 
             ss_tag.replace_with(tag)
-
-    return soup
 
 
 def sectionPromptDavinci(level: int, title: str, section: str):
@@ -103,5 +107,4 @@ def sectionPromptDavinci(level: int, title: str, section: str):
         this field
         '''
 
-    print(text)
     return text

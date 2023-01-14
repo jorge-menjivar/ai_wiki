@@ -11,9 +11,12 @@ def addAIOverview(
 ):
     if soup.body is not None:
 
-        content = db.getContent(conn, level, title, "readuce")
+        row = db.getContentRow(conn, level, title, "readuce")
 
-        if content is None:
+        content: str = ""
+        model: str = ""
+        timestamp: str = ""
+        if row is None:
             pretty_title = ""
             if soup.title is not None:
                 pretty_title = soup.title.string
@@ -23,18 +26,30 @@ def addAIOverview(
             if prompt is None:
                 return
 
-            content = gpt3_davinci.infer(prompt)
-            db.addContent(conn, level, title, "readuce", content)
+            content, model = gpt3_davinci.infer(prompt)
+
+            row = db.addContent(conn, level, title, "readuce", content, model)
+
+            if row is not None:
+                timestamp = row.timestamp
+
+        else:
+            content = row.content
+            model = row.model
+            timestamp = row.timestamp
 
         first_p = soup.body.find('p')
 
-        # tag = BeautifulSoup(
-        #     f"<div class='ai_summary'><p>{content}</p></div> {first_p}",
-        #     'html.parser'
-        # )
+        disclaimer = f'''This content was generated using {model} on \
+            {timestamp}'''
 
         tag = BeautifulSoup(
-            f"<h2>Overview</h2><p>{content}</p> <h2>Article</h2> {first_p}",
+            f'''<h2>Overview</h2>
+                    <div class="ai_overview">
+                        <p class="overview_disclaimer">{disclaimer}</p>
+                        <p class="overview_content">{content}</p>
+                    </div>
+                <h2>Article</h2> {first_p}''',
             'html.parser'
         )
 
@@ -60,22 +75,22 @@ def overviewPromptDavinci(level: int, title: str | None):
         text = f'Summarize "{title}" like I am a teenager'
 
     elif level == 4:
-        text = f'''\
+        text = f'''
         Summarize "{title}" like I am almost knowledgeable in this field
         '''
 
     elif level == 5:
-        text = f'''\
+        text = f'''
         Summarize "{title}" like I am knowledgeable in this field
         '''
 
     elif level == 6:
-        text = f'''\
+        text = f'''
         Summarize "{title}" like I am almost an expert in this field
         '''
 
     elif level == 7:
-        text = f'''\
+        text = f'''
         Summarize "{title}" like I am an expert in this field
         '''
 

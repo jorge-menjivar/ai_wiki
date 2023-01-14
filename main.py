@@ -8,9 +8,11 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pipeline import PipelineCloud
+from psycopg.rows import namedtuple_row
 from urllib.parse import quote
 from settings import get_settings
 from src.readuce.overview import addAIOverview
+from src.readuce.utils import fixSideBarListTitle
 # from src.readuce.sections import addAISections
 from src.readuce.sub_sections import addAISubSections
 from src.security.leaky_bucket import makeRequest
@@ -48,6 +50,7 @@ conn = psycopg.connect(
     dbname=settings.postgres_db,
     user=settings.postgres_user,
     password=settings.postgres_pass,
+    row_factory=namedtuple_row
 )
 
 api = PipelineCloud(token=settings.mystic_api_token)
@@ -90,7 +93,6 @@ async def wiki(request: Request):
 
 @app.get("/api/wiki/{level}/{title:path}", response_class=HTMLResponse)
 async def render_page(request: Request, level: int, title: str):
-    print(f'title is: {title}')
     title = quote(title, safe='')
     print(f'title is: {title}')
     ip = "all"
@@ -101,6 +103,7 @@ async def render_page(request: Request, level: int, title: str):
         soup = data.getArticleSoup(title, level)
         addAISubSections(conn, soup, level, title)
         addAIOverview(conn, soup, level, title)
+        fixSideBarListTitle(soup)
 
         if soup.body is not None:
             return soup.body.prettify()

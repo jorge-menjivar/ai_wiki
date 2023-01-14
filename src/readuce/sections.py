@@ -18,10 +18,12 @@ def addAISections(
             print(s_tag)
             id = s_tag['id']
 
-            if id not in ["External_links", "References", "See_also", "Bibliography"]:
-                content = db.getContent(conn, level, title, section=id)
+            if id not in ["External_links", "References", "See_also",
+                          "Bibliography"]:
+                row = db.getContentRow(conn, level, title, section=id)
 
-                if content is None:
+                content: str = ''
+                if row is None:
                     pretty_title = ""
                     if soup.title is None or soup.title.string is None:
                         return soup
@@ -34,14 +36,17 @@ def addAISections(
                     if prompt is None:
                         return
 
-                    content = gpt3_davinci.infer(prompt)
+                    content, model = gpt3_davinci.infer(prompt)
                     db.addContent(
                         conn,
                         level,
                         title,
                         section=id,
-                        content=content
+                        content=content,
+                        model=model
                     )
+                else:
+                    content = row.content
 
                 tag = BeautifulSoup(
                     f"{s_tag}<div class='ai_section'><p>{content}</p></div>",
@@ -52,8 +57,6 @@ def addAISections(
 
             else:
                 print('Skipping section')
-
-    return soup
 
 
 def sectionPromptDavinci(level: int, title: str, section: str):

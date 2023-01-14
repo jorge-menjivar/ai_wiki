@@ -1,4 +1,6 @@
+from typing import Optional
 from psycopg import sql, Connection
+from psycopg.rows import TupleRow
 
 
 def createTitleTable(conn: Connection, level: int, title: str):
@@ -8,7 +10,9 @@ def createTitleTable(conn: Connection, level: int, title: str):
         '''
         CREATE TABLE IF NOT EXISTS {table} (
             "section" varchar PRIMARY KEY NOT NULL,
-            "content" varchar NOT NULL
+            "content" varchar NOT NULL,
+            "model" varchar NOT NULL,
+            "timestamp" TIMESTAMP WITHOUT TIME ZONE NOT NULL
         );
         '''
     ).format(table=sql.Identifier(__getLevelString(level), title)))
@@ -16,7 +20,7 @@ def createTitleTable(conn: Connection, level: int, title: str):
     conn.commit()
 
 
-def getContent(conn: Connection, level: int, title: str, section: str):
+def getContentRow(conn: Connection, level: int, title: str, section: str):
     createTitleTable(conn, level, title)
 
     # Get the section content for a specific title
@@ -31,14 +35,9 @@ def getContent(conn: Connection, level: int, title: str, section: str):
         section=section)
     )
 
-    content: str | None = None
-    fetch = cursor.fetchone()
+    fetch: Optional[TupleRow] = cursor.fetchone()
 
-    if fetch is not None:
-        if fetch[0] is not None:
-            content = fetch[1]
-
-    return content
+    return fetch
 
 
 def updateContent(
@@ -46,19 +45,21 @@ def updateContent(
     level: int,
     title: str,
     section: str,
-    content: str
+    content: str,
+    model: str
 ):
 
     conn.execute(sql.SQL(
         '''
         UPDATE {table}
-        SET "content"={content}
+        SET "content"={content}, "model"={model}, "timestamp"=NOW()
         WHERE "section"={section};
         '''
     ).format(
         table=sql.Identifier(__getLevelString(level), title),
         section=section,
-        content=content
+        content=content,
+        model=model
     ))
 
     conn.commit()
@@ -69,22 +70,28 @@ def addContent(
     level: int,
     title: str,
     section: str,
-    content: str
+    content: str,
+    model: str,
 ):
 
     # Add the content to a new section in the database
-    conn.execute(sql.SQL(
+    cursor = conn.execute(sql.SQL(
         '''
-        INSERT INTO {table} (section, content)
-        VALUES ({section}, {content})
+        INSERT INTO {table} (section, content, model, timestamp)
+        VALUES ({section}, {content}, {model}, NOW())
+        RETURNING *
         '''
     ).format(
         table=sql.Identifier(__getLevelString(level), title),
         section=section,
-        content=content
+        content=content,
+        model=model
     ))
 
+    fetch: Optional[TupleRow] = cursor.fetchone()
     conn.commit()
+
+    return fetch
 
 
 def __getLevelString(level: int):
