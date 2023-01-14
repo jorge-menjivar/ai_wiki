@@ -1,0 +1,5 @@
+.mwe-math-fallback-image-inline {
+  @media (prefers-color-scheme: dark) {
+    filter: invert(100%);
+  }
+}

@@ -110,3 +110,9 @@ body.skin-minerva .sidebar {
     margin-right: 0 !important;
   }
 }
+
+.sidebar-list-title {
+  background-color: var(--side-bar-list-title-bg-color);
+  border-radius: 4px;
+  padding: 4px;
+}

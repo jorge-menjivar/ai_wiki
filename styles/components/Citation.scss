@@ -13,6 +13,7 @@ cite.citation {
   background: linear-gradient(transparent, transparent),
     url("//upload.wikimedia.org/wikipedia/commons/6/65/Lock-green.svg") right
       0.1em center/9px no-repeat;
+  padding-right: 12px;
 }
 .id-lock-limited a,
 .id-lock-registration a,
@@ -21,17 +22,20 @@ cite.citation {
   background: linear-gradient(transparent, transparent),
     url("//upload.wikimedia.org/wikipedia/commons/d/d6/Lock-gray-alt-2.svg")
       right 0.1em center/9px no-repeat;
+  padding-right: 12px;
 }
 .id-lock-subscription a,
 .citation .cs1-lock-subscription a {
   background: linear-gradient(transparent, transparent),
     url("//upload.wikimedia.org/wikipedia/commons/a/aa/Lock-red-alt-2.svg")
       right 0.1em center/9px no-repeat;
+  padding-right: 12px;
 }
 .cs1-ws-icon a {
   background: linear-gradient(transparent, transparent),
     url("//upload.wikimedia.org/wikipedia/commons/4/4c/Wikisource-logo.svg")
       right 0.1em center/12px no-repeat;
+  padding-right: 12px;
 }
 .cs1-code {
   color: inherit;

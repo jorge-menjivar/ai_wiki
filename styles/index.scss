@@ -1,5 +1,7 @@
 @use "theme/Colors.scss";
 @use "theme/Fonts.scss";
+@use "components/AISection.scss";
+@use "components/AISubSection.scss";
 @use "components/AmBox.scss";
 @use "components/BossNav.scss";
 @use "components/CatLinks.scss";
@@ -12,6 +14,7 @@
 @use "components/HList.scss";
 @use "components/InfoBox.scss";
 @use "components/InfoBoxSubBox.scss";
+@use "components/Math.scss";
 @use "components/NavBar.scss";
 @use "components/NavBox.scss";
 @use "components/PlainList.scss";

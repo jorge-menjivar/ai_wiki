@@ -1,4 +1,8 @@
 :root {
+  --ai-overview-color: #e1e1e1;
+  --ai-overview-bg-color: #21392e;
+  --ai-section-color: #000000;
+  --ai-section-bg-color: #ffffff;
   --am-box-color: #000000;
   --am-box-bg-color: #fbfbfb;
   --am-box-border-color: #787878;
@@ -35,6 +39,7 @@
   --side-bar-color: #000000;
   --side-bar-bg-color: #fbfbfb;
   --side-bar-border-color: #787878;
+  --side-bar-list-title-bg-color: #eaecf0;
   --portal-box-bg-color: #fbfbfb;
   --portal-box-border-color: #aaaaaa;
   --wikitable-color: #0c0c0c;
@@ -45,6 +50,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --ai-overview-color: #e1e1e1;
+    --ai-overview-bg-color: #21392e;
+    --ai-section-color: #e1e1e1;
+    --ai-section-bg-color: #21392e;
     --am-box-color: #ffffff;
     --am-box-bg-color: #2e2e2e;
     --am-box-border-color: #8f8f8f;
@@ -83,6 +92,7 @@
     --side-bar-color: #ffffff;
     --side-bar-bg-color: #2e2e2e;
     --side-bar-border-color: #8f8f8f;
+    --side-bar-list-title-bg-color: #1f1f1f;
     --wikitable-color: #f3f3f3;
     --wikitable-bg-color: #2e2e2e;
     --wikitable-border-color: #787878;
