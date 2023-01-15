@@ -1,12 +1,12 @@
 from typing import Optional
-from psycopg import sql, Connection
+from psycopg import sql, AsyncConnection
 from psycopg.rows import TupleRow
 
 
-def createTitleTable(conn: Connection, level: int, title: str):
+async def createTitleTable(aconn: AsyncConnection, level: int, title: str):
 
     # Create the table to store ai generated content if it doesn't exist
-    conn.execute(sql.SQL(
+    await aconn.execute(sql.SQL(
         '''
         CREATE TABLE IF NOT EXISTS {table} (
             "section" varchar PRIMARY KEY NOT NULL,
@@ -17,14 +17,19 @@ def createTitleTable(conn: Connection, level: int, title: str):
         '''
     ).format(table=sql.Identifier(__getLevelString(level), title)))
 
-    conn.commit()
+    await aconn.commit()
 
 
-def getContentRow(conn: Connection, level: int, title: str, section: str):
-    createTitleTable(conn, level, title)
+async def getContentRow(
+    aconn: AsyncConnection,
+    level: int,
+    title: str,
+    section: str
+):
+    await createTitleTable(aconn, level, title)
 
     # Get the section content for a specific title
-    cursor = conn.execute(sql.SQL(
+    acur = await aconn.execute(sql.SQL(
         '''
         SELECT *
         FROM {table}
@@ -35,13 +40,13 @@ def getContentRow(conn: Connection, level: int, title: str, section: str):
         section=section)
     )
 
-    fetch: Optional[TupleRow] = cursor.fetchone()
+    fetch: Optional[TupleRow] = await acur.fetchone()
 
     return fetch
 
 
-def updateContent(
-    conn: Connection,
+async def updateContent(
+    aconn: AsyncConnection,
     level: int,
     title: str,
     section: str,
@@ -49,7 +54,7 @@ def updateContent(
     model: str
 ):
 
-    conn.execute(sql.SQL(
+    await aconn.execute(sql.SQL(
         '''
         UPDATE {table}
         SET "content"={content}, "model"={model}, "timestamp"=NOW()
@@ -62,11 +67,11 @@ def updateContent(
         model=model
     ))
 
-    conn.commit()
+    await aconn.commit()
 
 
-def addContent(
-    conn: Connection,
+async def addContent(
+    aconn: AsyncConnection,
     level: int,
     title: str,
     section: str,
@@ -75,10 +80,11 @@ def addContent(
 ):
 
     # Add the content to a new section in the database
-    cursor = conn.execute(sql.SQL(
+    acur = await aconn.execute(sql.SQL(
         '''
         INSERT INTO {table} (section, content, model, timestamp)
         VALUES ({section}, {content}, {model}, NOW())
+        ON CONFLICT (section) DO NOTHING
         RETURNING *
         '''
     ).format(
@@ -88,8 +94,8 @@ def addContent(
         model=model
     ))
 
-    fetch: Optional[TupleRow] = cursor.fetchone()
-    conn.commit()
+    fetch: Optional[TupleRow] = await acur.fetchone()
+    await aconn.commit()
 
     return fetch
 

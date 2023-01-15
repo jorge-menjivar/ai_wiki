@@ -45,6 +45,17 @@ def fixMath(soup):
     return soup
 
 
+def fixMathFallbackImage(soup):
+    images = soup.body.find_all(attrs={
+        'class': "mwe-math-fallback-image-inline"}
+    )
+
+    for i in images:
+        del i['style']
+
+    return soup
+
+
 def fixSideBarListTitle(soup):
     spans = soup.body.find_all(attrs={
         'class': "sidebar-list-title"}

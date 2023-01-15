@@ -1,24 +1,24 @@
+import aiohttp
+import asyncio
 import json
 import openai
 import psycopg
 import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pipeline import PipelineCloud
 from psycopg.rows import namedtuple_row
 from urllib.parse import quote
 from settings import get_settings
-from src.readuce.overview import addAIOverview
-from src.readuce.utils import fixSideBarListTitle
-# from src.readuce.sections import addAISections
-from src.readuce.sub_sections import addAISubSections
+from src.readuce import page
 from src.security.leaky_bucket import makeRequest
 from src.wikipedia import data
 
 settings = get_settings()
+_http_client_session = None
+_pg_connection = None
 
 f = open("manifest.json")
 vite_manifest = json.load(f)
@@ -44,16 +44,33 @@ app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 templates = Jinja2Templates(directory="templates")
 
-# Connect to the database
-conn = psycopg.connect(
-    host=settings.postgres_host,
-    dbname=settings.postgres_db,
-    user=settings.postgres_user,
-    password=settings.postgres_pass,
-    row_factory=namedtuple_row
-)
 
-api = PipelineCloud(token=settings.mystic_api_token)
+def log_notice(diag):
+    print(f"The server says: {diag.severity} - {diag.message_primary}")
+
+
+async def getPGConnection():
+    global _pg_connection
+    if _pg_connection is None:
+        _pg_connection = await psycopg.AsyncConnection.connect(
+            host=settings.postgres_host,
+            dbname=settings.postgres_db,
+            user=settings.postgres_user,
+            password=settings.postgres_pass,
+            row_factory=namedtuple_row
+        )
+        _pg_connection.add_notice_handler(log_notice)
+    return _pg_connection
+
+
+async def getHTTPClientSession():
+    global _http_client_session
+    if _http_client_session is None:
+        _http_client_session = aiohttp.ClientSession()
+    return _http_client_session
+
+
+# api = PipelineCloud(token=settings.mystic_api_token)s
 openai.api_key = settings.openai_api_key
 
 
@@ -92,49 +109,40 @@ async def wiki(request: Request):
 
 
 @app.get("/api/wiki/{level}/{title:path}", response_class=HTMLResponse)
-async def render_page(request: Request, level: int, title: str):
+async def generate_page(request: Request, level: int, title: str):
     title = quote(title, safe='')
     print(f'title is: {title}')
     ip = "all"
     if request.client is not None:
         ip = request.client.host
 
-    if makeRequest(conn, ip, 1):
-        soup = data.getArticleSoup(title, level)
-        addAISubSections(conn, soup, level, title)
-        addAIOverview(conn, soup, level, title)
-        fixSideBarListTitle(soup)
+    aconn = await getPGConnection()
+    if await makeRequest(aconn, ip, 1):
+        session = await getHTTPClientSession()
+        openai.aiosession.set(session)
+        return await page.get(aconn, session, title, level)
 
-        if soup.body is not None:
-            return soup.body.prettify()
-
-        print("Body not found")
-        raise HTTPException(
-            status_code=404, detail="Content not found"
-        )
-
-    else:
-        print("Request denied")
-        raise HTTPException(
-            status_code=429, detail="Limit reached. Try again in a few minutes"
-        )
+    raise HTTPException(
+        status_code=403, detail="Too many requests"
+    )
 
 
-@app.get("/mobile/{title}", response_class=HTMLResponse)
-async def render_mobile(request: Request, title: str):
-    ip = "all"
-    if request.client is not None:
-        ip = request.client.host
+async def test():
+    await asyncio.sleep(5)
+    return {"slept": True}
 
-    if makeRequest(conn, ip, 1):
-        page = data.getMobile(title)
-        return page
 
-    else:
-        print("Request denied")
-        raise HTTPException(
-            status_code=429, detail="Limit reached. Try again in a few minutes"
-        )
+@app.get("/wait", response_class=JSONResponse)
+async def wait_json(request: Request):
+
+    print("Wait request received")
+
+    task = test()
+
+    res = {}
+    for f in asyncio.as_completed([task]):
+        res = await f
+    return res
 
 
 @app.get("/w/{res_path:path}", response_class=HTMLResponse)

@@ -4,9 +4,9 @@ from settings import get_settings
 settings = get_settings()
 
 
-def infer(text: str):
+async def infer(text: str):
 
-    response = openai.Completion.create(
+    response = await openai.Completion.acreate(
         model="text-davinci-003",
         prompt=text,
         temperature=0,

@@ -1,5 +1,7 @@
-from psycopg import sql, Connection
+from typing import Optional
+from psycopg import sql, AsyncConnection
 from settings import get_settings
+from psycopg.rows import TupleRow
 
 
 settings = get_settings()
@@ -10,10 +12,10 @@ TOKEN_LIMIT = settings.leaky_bucket_token_limit
 TIME_WINDOW = settings.leaky_bucket_time_window
 
 
-def createIPTable(conn: Connection, ip: str):
+async def createIPTable(aconn: AsyncConnection, ip: str):
 
     # Create the table to store the tokens if it doesn't already exist
-    conn.execute(sql.SQL(
+    await aconn.execute(sql.SQL(
         '''
         CREATE TABLE IF NOT EXISTS leaky_bucket.{ip} (
             token_timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -22,55 +24,58 @@ def createIPTable(conn: Connection, ip: str):
         '''
     ).format(ip=sql.Identifier(ip)))
 
-    conn.commit()
+    await aconn.commit()
 
 
-def getTokenCount(conn: Connection, ip: str):
-    createIPTable(conn, ip)
+async def getTokenCount(aconn: AsyncConnection, ip: str):
+    await createIPTable(aconn, ip)
 
-    # Get the current number of tokens in the bucket
-    cursor = conn.execute(sql.SQL(
-        '''
-        SELECT SUM(token_count)
-        FROM leaky_bucket.{ip}
-        WHERE token_timestamp > NOW() - INTERVAL '{window} seconds'
-        '''
-    ).format(ip=sql.Identifier(ip), window=TIME_WINDOW))
+    async with aconn.cursor() as acur:
 
-    requests = 0
-    fetch = cursor.fetchone()
+        # Get the current number of tokens in the bucket
+        await acur.execute(sql.SQL(
+            '''
+            SELECT SUM(token_count)
+            FROM leaky_bucket.{ip}
+            WHERE token_timestamp > NOW() - INTERVAL '{window} seconds'
+            '''
+        ).format(ip=sql.Identifier(ip), window=TIME_WINDOW))
 
-    if fetch is not None:
-        requests = fetch.sum
-    print(f"Requests in last {TIME_WINDOW // 60} minutes: {requests}")
+        requests = 0
+        fetch: Optional[TupleRow] = await acur.fetchone()
 
-    remaining = TOKEN_LIMIT - requests
+        if fetch is not None:
+            if fetch.sum is not None:
+                requests = fetch.sum
+        print(f"Requests in last {TIME_WINDOW // 60} minutes: {requests}")
 
-    print(f"Requests remaining: {remaining}")
+        # The remaining number of tokens for the time period
+        remaining = TOKEN_LIMIT - requests
 
-    return remaining
+        print(f"Requests remaining: {remaining}")
+
+        return remaining
 
 
-def addTokens(conn: Connection, ip: str, count: int):
+async def addTokens(aconn: AsyncConnection, ip: str, count: int):
     # Add the specified number of tokens to the bucket
-    conn.execute(sql.SQL(
+    await aconn.execute(sql.SQL(
         '''
         INSERT INTO leaky_bucket.{ip} (token_timestamp, token_count)
         VALUES (NOW(), {count})
         '''
     ).format(ip=sql.Identifier(ip), count=count))
 
-    conn.commit()
+    await aconn.commit()
 
 
-def makeRequest(conn: Connection, ip: str, count: int):
+async def makeRequest(aconn: AsyncConnection, ip: str, count: int):
     print(f"IP is {ip}")
     # Check if there are enough tokens in the bucket to make the request
-    token_count = getTokenCount(conn, ip)
+    token_count = await getTokenCount(aconn, ip)
 
     if token_count >= count:
-        addTokens(conn, ip, count)
-        conn.commit()
+        await addTokens(aconn, ip, count)
         return True
     else:
         # Not enough tokens in the bucket, so return False

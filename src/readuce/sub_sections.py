@@ -1,11 +1,12 @@
 from bs4 import BeautifulSoup
+from psycopg import AsyncConnection
 from src.readuce.utils import removeUnderscores
 from src.data import db
 from src.openai.nlp import gpt3_davinci
 
 
-def addAISubSections(
-    conn,
+async def addAISubSections(
+    aconn: AsyncConnection,
     soup: BeautifulSoup,
     level: int,
     title: str,
@@ -16,10 +17,10 @@ def addAISubSections(
 
         for ss_tag in ss_tags:
 
-            print(ss_tag)
             id = ss_tag['id']
+            print(id)
 
-            row = db.getContentRow(conn, level, title, section=id)
+            row = await db.getContentRow(aconn, level, title, section=id)
 
             content: str = ""
             if row is None:
@@ -35,10 +36,10 @@ def addAISubSections(
                 if prompt is None:
                     return
 
-                content, model = gpt3_davinci.infer(prompt)
+                content, model = await gpt3_davinci.infer(prompt)
 
-                db.addContent(
-                    conn,
+                await db.addContent(
+                    aconn,
                     level,
                     title,
                     section=id,

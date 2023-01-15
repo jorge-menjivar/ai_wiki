@@ -1,17 +1,18 @@
 from bs4 import BeautifulSoup
+from psycopg import AsyncConnection
 from src.data import db
 from src.openai.nlp import gpt3_davinci
 
 
-def addAIOverview(
-    conn,
+async def addAIOverview(
+    aconn: AsyncConnection,
     soup: BeautifulSoup,
     level: int,
     title: str
 ):
     if soup.body is not None:
 
-        row = db.getContentRow(conn, level, title, "readuce")
+        row = await db.getContentRow(aconn, level, title, "readuce")
 
         content: str = ""
         model: str = ""
@@ -26,9 +27,16 @@ def addAIOverview(
             if prompt is None:
                 return
 
-            content, model = gpt3_davinci.infer(prompt)
+            content, model = await gpt3_davinci.infer(prompt)
 
-            row = db.addContent(conn, level, title, "readuce", content, model)
+            row = await db.addContent(
+                aconn,
+                level,
+                title,
+                "readuce",
+                content,
+                model
+            )
 
             if row is not None:
                 timestamp = row.timestamp
