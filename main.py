@@ -1,12 +1,11 @@
 import aiohttp
-import asyncio
 import json
 import openai
 import psycopg
 import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from psycopg.rows import namedtuple_row
@@ -125,24 +124,6 @@ async def generate_page(request: Request, level: int, title: str):
     raise HTTPException(
         status_code=403, detail="Too many requests"
     )
-
-
-async def test():
-    await asyncio.sleep(5)
-    return {"slept": True}
-
-
-@app.get("/wait", response_class=JSONResponse)
-async def wait_json(request: Request):
-
-    print("Wait request received")
-
-    task = test()
-
-    res = {}
-    for f in asyncio.as_completed([task]):
-        res = await f
-    return res
 
 
 @app.get("/w/{res_path:path}", response_class=HTMLResponse)
