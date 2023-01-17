@@ -3,10 +3,10 @@ import aiohttp
 import asyncio
 from fastapi import HTTPException
 from psycopg import AsyncConnection
-from src.readuce.overview import addAIOverview
-from src.readuce.utils import fixSideBarListTitle, fixMathFallbackImage
-from src.readuce.sub_sections import addAISubSections
-from src.wikipedia import data
+from readuce.overview import addAIOverview
+from readuce.utils import fixSideBarListTitle, fixMathFallbackImage
+from readuce.sub_sections import addAISubSections
+from wikipedia import data
 
 
 async def get(

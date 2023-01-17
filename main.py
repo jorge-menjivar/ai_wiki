@@ -11,9 +11,9 @@ from fastapi.templating import Jinja2Templates
 from psycopg.rows import namedtuple_row
 from urllib.parse import quote
 from settings import get_settings
-from src.readuce import page
-from src.security.leaky_bucket import makeRequest
-from src.wikipedia import data
+from readuce import page
+from security.leaky_bucket import makeRequest
+from wikipedia import data
 
 settings = get_settings()
 _http_client_session = None

@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from fastapi import Request
 from fastapi.templating import Jinja2Templates
 from settings import get_settings
-from src.readuce.utils import removeItalics
+from readuce.utils import removeItalics
 
 settings = get_settings()
 

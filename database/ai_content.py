@@ -3,7 +3,7 @@ from psycopg import sql, AsyncConnection
 from psycopg.rows import TupleRow
 
 
-async def createTitleTable(aconn: AsyncConnection, level: int, title: str):
+async def __createTitleTable(aconn: AsyncConnection, level: int, title: str):
 
     # Create the table to store ai generated content if it doesn't exist
     await aconn.execute(sql.SQL(
@@ -20,13 +20,13 @@ async def createTitleTable(aconn: AsyncConnection, level: int, title: str):
     await aconn.commit()
 
 
-async def getContentRow(
+async def get(
     aconn: AsyncConnection,
     level: int,
     title: str,
     section: str
 ):
-    await createTitleTable(aconn, level, title)
+    await __createTitleTable(aconn, level, title)
 
     # Get the section content for a specific title
     acur = await aconn.execute(sql.SQL(
@@ -45,7 +45,7 @@ async def getContentRow(
     return fetch
 
 
-async def updateContent(
+async def update(
     aconn: AsyncConnection,
     level: int,
     title: str,
@@ -70,7 +70,7 @@ async def updateContent(
     await aconn.commit()
 
 
-async def addContent(
+async def add(
     aconn: AsyncConnection,
     level: int,
     title: str,

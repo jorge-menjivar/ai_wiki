@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
+from database.ai_content import add, get
+from nlp.openai import gpt3_davinci
 from psycopg import AsyncConnection
-from src.readuce.utils import removeUnderscores
-from src.data import db
-from src.openai.nlp import gpt3_davinci
+from readuce.utils import removeUnderscores
 
 
 async def addAISubSections(
@@ -20,7 +20,7 @@ async def addAISubSections(
             id = ss_tag['id']
             print(id)
 
-            row = await db.getContentRow(aconn, level, title, section=id)
+            row = await get(aconn, level, title, section=id)
 
             content: str = ""
             if row is None:
@@ -38,7 +38,7 @@ async def addAISubSections(
 
                 content, model = await gpt3_davinci.infer(prompt)
 
-                await db.addContent(
+                await add(
                     aconn,
                     level,
                     title,

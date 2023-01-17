@@ -1,7 +1,7 @@
+import aiohttp
 import requests
 from settings import get_settings
 from bs4 import BeautifulSoup
-import aiohttp
 
 settings = get_settings()
 

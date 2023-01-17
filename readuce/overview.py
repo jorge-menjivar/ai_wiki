@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
+from database.ai_content import add, get
 from psycopg import AsyncConnection
-from src.data import db
-from src.openai.nlp import gpt3_davinci
+from nlp.openai import gpt3_davinci
 
 
 async def addAIOverview(
@@ -12,7 +12,7 @@ async def addAIOverview(
 ):
     if soup.body is not None:
 
-        row = await db.getContentRow(aconn, level, title, "readuce")
+        row = await get(aconn, level, title, "readuce")
 
         content: str = ""
         model: str = ""
@@ -29,7 +29,7 @@ async def addAIOverview(
 
             content, model = await gpt3_davinci.infer(prompt)
 
-            row = await db.addContent(
+            row = await add(
                 aconn,
                 level,
                 title,

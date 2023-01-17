@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
+from database.ai_content import add, get
+from nlp.openai import gpt3_davinci
 from psycopg import AsyncConnection
-from src.data import db
-from src.openai.nlp import gpt3_davinci
 
 
 async def addAISections(
@@ -21,7 +21,7 @@ async def addAISections(
 
             if id not in ["External_links", "References", "See_also",
                           "Bibliography"]:
-                row = await db.getContentRow(aconn, level, title, section=id)
+                row = await get(aconn, level, title, section=id)
 
                 content: str = ''
                 if row is None:
@@ -38,7 +38,7 @@ async def addAISections(
                         return
 
                     content, model = await gpt3_davinci.infer(prompt)
-                    await db.addContent(
+                    await add(
                         aconn,
                         level,
                         title,
