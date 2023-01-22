@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 settings = get_settings()
 
 
-async def getArticleSoup(
+async def aGetArticleSoup(
     session: aiohttp.ClientSession,
     title: str,
     level: int
@@ -44,6 +44,43 @@ profile='https://www.mediawiki.org/wiki/Specs/HTML/2.1.0'"""
         __removeAMBoxes(soup)
 
         return soup
+
+
+def getArticleSoup(
+    title: str,
+    level: int
+):
+    # Downloading data for title
+
+    url = f'https://en.wikipedia.org/api/rest_v1/page/html/{title}'
+
+    headers = {
+        "accept": """text/html; charset=utf-8;\
+profile='https://www.mediawiki.org/wiki/Specs/HTML/2.1.0'"""
+    }
+
+    response = requests.get(url, headers)
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Update links
+    for a in soup.find_all('a'):
+        keys: list = a.attrs.keys()
+        if 'rel' in keys:
+            rel: str = a['rel']
+            if 'mw:WikiLink' in rel:
+                old_link = a['href']
+                new_link = f"//{settings.url}/wiki/{level}/" + old_link[2:]
+                a['href'] = new_link
+
+    # Removed injected styles
+    if soup.head is not None:
+        for style in soup.find_all('style'):
+            style.decompose()
+
+    __removeAMBoxes(soup)
+
+    return soup
 
 
 def getMobile(title: str):

@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     leaky_bucket_token_limit: int = 20
     leaky_bucket_time_window: int = 60*60
     host: str = ''
+    max_levels = 7
     mystic_api_token: str = ''
     mystic_gpt3_neo_2_7b_id: str = ''
     mystic_gpt3_j_id: str = ''

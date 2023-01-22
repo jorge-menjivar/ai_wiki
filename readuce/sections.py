@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
-from database.ai_content import add, get
+from database.ai_content import aAdd, aGet
 from nlp.openai import gpt3_davinci
 from psycopg import AsyncConnection
+
+from readuce.utils import removeUnderscores
 
 
 async def addAISections(
@@ -10,6 +12,8 @@ async def addAISections(
     level: int,
     title: str,
 ):
+
+    pretty_title = removeUnderscores(title)
     if soup.body is not None:
 
         section_tags = soup.body.find_all('h2')
@@ -21,15 +25,10 @@ async def addAISections(
 
             if id not in ["External_links", "References", "See_also",
                           "Bibliography"]:
-                row = await get(aconn, level, title, section=id)
+                row = await aGet(aconn, level, title, section=id)
 
                 content: str = ''
                 if row is None:
-                    pretty_title = ""
-                    if soup.title is None or soup.title.string is None:
-                        return soup
-
-                    pretty_title = soup.title.string
                     section: str = s_tag.string
 
                     prompt = sectionPromptDavinci(level, pretty_title, section)
@@ -37,8 +36,8 @@ async def addAISections(
                     if prompt is None:
                         return
 
-                    content, model = await gpt3_davinci.infer(prompt)
-                    await add(
+                    content, model = await gpt3_davinci.aInfer(prompt)
+                    await aAdd(
                         aconn,
                         level,
                         title,

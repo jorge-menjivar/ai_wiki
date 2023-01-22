@@ -3,7 +3,7 @@ from psycopg import sql, AsyncConnection
 from psycopg.rows import TupleRow
 
 
-async def __createIPTable(aconn: AsyncConnection, ip: str):
+async def aCreateIPTable(aconn: AsyncConnection, ip: str):
 
     # Create the table to store the tokens if it doesn't already exist
     await aconn.execute(sql.SQL(
@@ -18,8 +18,7 @@ async def __createIPTable(aconn: AsyncConnection, ip: str):
     await aconn.commit()
 
 
-async def get(aconn: AsyncConnection, ip: str, time_window):
-    await __createIPTable(aconn, ip)
+async def aGet(aconn: AsyncConnection, ip: str, time_window):
 
     async with aconn.cursor() as acur:
 
@@ -37,7 +36,7 @@ async def get(aconn: AsyncConnection, ip: str, time_window):
         return fetch
 
 
-async def add(aconn: AsyncConnection, ip: str, count: int):
+async def aAdd(aconn: AsyncConnection, ip: str, count: int):
     # Add the specified number of tokens to the bucket
     await aconn.execute(sql.SQL(
         '''

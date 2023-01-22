@@ -10,9 +10,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from psycopg.rows import namedtuple_row
 from urllib.parse import quote
-from settings import get_settings
 from readuce import page
+from settings import get_settings
 from security.leaky_bucket import makeRequest
+# from tasks import genAllLevels
+from tasks import genAllLinks
 from wikipedia import data
 
 settings = get_settings()
@@ -23,6 +25,7 @@ f = open("manifest.json")
 vite_manifest = json.load(f)
 
 app = FastAPI(root_path="/")
+
 
 origins = [
     settings.url,
@@ -69,24 +72,20 @@ async def getHTTPClientSession():
     return _http_client_session
 
 
-# api = PipelineCloud(token=settings.mystic_api_token)s
-openai.api_key = settings.openai_api_key
-
-
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse(
-        # "index.html.j2",
-        # {
-        #     "request": request,
-        #     "stylesheet": vite_manifest["index.css"].file,
-        #     "main": vite_manifest["index.js"].file,
-        # }
-
-        "index.dev.html.j2",
+        "index.html.j2",
         {
             "request": request,
+            "stylesheet": vite_manifest["index.css"]["file"],
+            "main": vite_manifest["index.html"]["file"],
         }
+
+        # "index.dev.html.j2",
+        # {
+        #     "request": request,
+        # }
     )
 
 
@@ -119,7 +118,9 @@ async def generate_page(request: Request, level: int, title: str):
     if await makeRequest(aconn, ip, 1):
         session = await getHTTPClientSession()
         openai.aiosession.set(session)
-        return await page.get(aconn, session, title, level)
+        html = await page.aGet(aconn, session, title, level)
+        genAllLinks.delay(html, level)
+        return html
 
     raise HTTPException(
         status_code=403, detail="Too many requests"
@@ -130,6 +131,27 @@ async def generate_page(request: Request, level: int, title: str):
 async def stylesheet(request: Request, res_path: str):
     res = data.getResource(res_path)
     return res
+
+
+@app.get("/test/tasks/{title:path}", response_class=HTMLResponse)
+async def test_tasks(request: Request, title: str):
+    title = quote(title, safe='')
+    print(f'title is: {title}')
+    ip = "all"
+    if request.client is not None:
+        ip = request.client.host
+
+    aconn = await getPGConnection()
+    if await makeRequest(aconn, ip, 1):
+        session = await getHTTPClientSession()
+        openai.aiosession.set(session)
+        html = await page.aGet(aconn, session, title, 1)
+        genAllLinks.delay(html, 1)
+        return html
+
+    raise HTTPException(
+        status_code=403, detail="Too many requests"
+    )
 
 
 if __name__ == "__main__":

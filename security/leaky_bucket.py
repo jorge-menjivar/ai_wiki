@@ -1,4 +1,4 @@
-from database.leaky_bucket import add, get
+from database.leaky_bucket import aCreateIPTable, aAdd, aGet
 from psycopg import AsyncConnection
 from settings import get_settings
 
@@ -13,9 +13,10 @@ TIME_WINDOW = settings.leaky_bucket_time_window
 
 async def makeRequest(aconn: AsyncConnection, ip: str, count: int):
     print(f"IP is {ip}")
+    await aCreateIPTable(aconn, ip)
     # Check if there are enough tokens in the bucket to make the request
     requests = 0
-    fetch = await get(aconn, ip, TIME_WINDOW)
+    fetch = await aGet(aconn, ip, TIME_WINDOW)
     if fetch is not None:
         if fetch.sum is not None:
             requests = fetch.sum
@@ -27,7 +28,7 @@ async def makeRequest(aconn: AsyncConnection, ip: str, count: int):
     print(f"Requests remaining: {remaining}")
 
     if remaining >= count:
-        await add(aconn, ip, count)
+        await aAdd(aconn, ip, count)
         return True
     else:
         # Not enough tokens in the bucket, so return False
