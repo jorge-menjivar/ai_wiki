@@ -1,40 +1,45 @@
 from bs4 import BeautifulSoup
 
 
-def removeItalics(title: str | None):
-    if title is not None:
-        title = title.replace("&lt;i&gt;", "")
-        title = title.replace("&lt;/i&gt;", "")
-        title = title.replace("<i>", "")
-        title = title.replace("</i>", "")
-        return title
+def removeItalics(text: str | None):
+    if text is not None:
+        text = text.replace("&lt;i&gt;", "")
+        text = text.replace("&lt;/i&gt;", "")
+        text = text.replace("<i>", "")
+        text = text.replace("</i>", "")
+        return text
+    return ""
 
 
-def removeQuotes(title: str | None):
-    if title is not None:
-        title = title.replace("\"", "")
-        return title
+def removeQuotes(text: str | None):
+    if text is not None:
+        text = text.replace("\"", "")
+        return text
+    return ""
 
 
-def removeAsterisks(title: str | None):
-    if title is not None:
-        title = title.replace("*", "")
-        return title
+def removeAsterisks(text: str | None):
+    if text is not None:
+        text = text.replace("*", "")
+        return text
+    return ""
 
 
-def removeUnderscores(text: str):
-    return text.replace('_', ' ')
+def removeUnderscores(text: str | None):
+    if text is not None:
+        text = text.replace('_', ' ')
+        return text
+    return ""
 
 
 def fixMath(soup):
-    spans = soup.body.find_all(attrs={
-        'class': "mwe-math-mathml-inline"}
-    )
+    spans = soup.body.find_all(attrs={'class': "mwe-math-mathml-inline"})
 
     for s in spans:
         s['style'] = ''
 
-    scripts = BeautifulSoup('''
+    scripts = BeautifulSoup(
+        '''
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
     </script> <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
@@ -46,9 +51,8 @@ def fixMath(soup):
 
 
 def fixMathFallbackImage(soup):
-    images = soup.body.find_all(attrs={
-        'class': "mwe-math-fallback-image-inline"}
-    )
+    images = soup.body.find_all(
+        attrs={'class': "mwe-math-fallback-image-inline"})
 
     for i in images:
         del i['style']
@@ -57,11 +61,21 @@ def fixMathFallbackImage(soup):
 
 
 def fixSideBarListTitle(soup):
-    spans = soup.body.find_all(attrs={
-        'class': "sidebar-list-title"}
-    )
+    spans = soup.body.find_all(attrs={'class': "sidebar-list-title"})
 
     for s in spans:
         del s['style']
 
     return soup
+
+
+def includeTitle(soup):
+    title = soup.title.string
+    title = removeItalics(title)
+    title = removeQuotes(title)
+    title = removeAsterisks(title)
+    title = removeUnderscores(title)
+
+    tag = BeautifulSoup(f"""<div class="title">{title}</div>""", 'html.parser')
+
+    soup.body.insert(0, tag)

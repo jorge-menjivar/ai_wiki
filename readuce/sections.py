@@ -23,8 +23,9 @@ async def addAISections(
             print(s_tag)
             id = s_tag['id']
 
-            if id not in ["External_links", "References", "See_also",
-                          "Bibliography"]:
+            if id not in [
+                    "External_links", "References", "See_also", "Bibliography"
+            ]:
                 row = await aGet(aconn, level, title, section=id)
 
                 content: str = ''
@@ -37,20 +38,21 @@ async def addAISections(
                         return
 
                     content, model = await gpt3_davinci.aInfer(prompt)
-                    await aAdd(
-                        aconn,
-                        level,
-                        title,
-                        section=id,
-                        content=content,
-                        model=model
-                    )
+                    await aAdd(aconn,
+                               level,
+                               title,
+                               section=id,
+                               content=content,
+                               model=model)
                 else:
                     content = row.content
 
                 tag = BeautifulSoup(
-                    f"{s_tag}<div class='ai_section'><p>{content}</p></div>",
-                    'html.parser'
+                    f"""
+                    {s_tag}<div class='ai_section' id='ai_{id}'>
+                    <p>{content}</p>
+                    </div>""",
+                    'html.parser',
                 )
 
                 s_tag.replace_with(tag)

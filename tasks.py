@@ -1,4 +1,3 @@
-import logging
 import openai
 import psycopg
 from bs4 import BeautifulSoup
@@ -53,14 +52,16 @@ def setup_task_logger(logger, *args, **kwargs):
     # for handler in logger.root.handlers:
     #     handler.setFormatter(TaskFormatter('%(levelname)s - %(message)s'))
     #     # TaskFormatter(
-    #     #     '%(asctime)s - %(task_id)s - %(task_name)s - %(name)s - %(levelname)s - %(message)s'
+    #     #     '%(asctime)s - %(task_id)s - %(task_name)s - %(name)s -
+    # %(levelname)s - %(message)s'
     #     # )
 
     for handler in logger.handlers:
         handler.setFormatter(
             TaskFormatter('%(task_name)s - %(levelname)s - %(message)s'))
         # TaskFormatter(
-        #     '%(asctime)s - %(task_id)s - %(task_name)s - %(name)s - %(levelname)s - %(message)s'
+        #     '%(asctime)s - %(task_id)s - %(task_name)s - %(name)s -
+        # %(levelname)s - %(message)s'
         # )
 
 
@@ -155,7 +156,7 @@ def genAllLevels(html: str, title: str):
         row = ai_content.get(conn, level, title, "readuce")
 
         if row is None:
-            genAIOverview.delay(level, title)
+            generate.overview(conn, level, title)
 
         if soup.body is not None:
 
@@ -171,7 +172,7 @@ def genAllLevels(html: str, title: str):
 
                     sub_section: str = removeUnderscores(id)
 
-                    genAISubSection.delay(level, title, sub_section, id)
+                    generate.subSection(conn, level, title, sub_section, id)
 
 
 @worker.task

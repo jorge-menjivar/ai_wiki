@@ -6,17 +6,15 @@ from bs4 import BeautifulSoup
 settings = get_settings()
 
 
-async def aGetArticleSoup(
-    session: aiohttp.ClientSession,
-    title: str,
-    level: int
-):
+async def aGetArticleSoup(session: aiohttp.ClientSession, title: str,
+                          level: int):
     # Downloading data for title
 
     url = f'https://en.wikipedia.org/api/rest_v1/page/html/{title}'
 
     headers = {
-        "accept": """text/html; charset=utf-8;\
+        "accept":
+        """text/html; charset=utf-8;\
 profile='https://www.mediawiki.org/wiki/Specs/HTML/2.1.0'"""
     }
 
@@ -33,7 +31,7 @@ profile='https://www.mediawiki.org/wiki/Specs/HTML/2.1.0'"""
                 rel: str = a['rel']
                 if 'mw:WikiLink' in rel:
                     old_link = a['href']
-                    new_link = f"//{settings.url}/wiki/{level}/" + old_link[2:]
+                    new_link = f"//{settings.url}/wiki/" + old_link[2:]
                     a['href'] = new_link
 
         # Removed injected styles
@@ -46,16 +44,14 @@ profile='https://www.mediawiki.org/wiki/Specs/HTML/2.1.0'"""
         return soup
 
 
-def getArticleSoup(
-    title: str,
-    level: int
-):
+def getArticleSoup(title: str, level: int):
     # Downloading data for title
 
     url = f'https://en.wikipedia.org/api/rest_v1/page/html/{title}'
 
     headers = {
-        "accept": """text/html; charset=utf-8;\
+        "accept":
+        """text/html; charset=utf-8;\
 profile='https://www.mediawiki.org/wiki/Specs/HTML/2.1.0'"""
     }
 
@@ -70,7 +66,7 @@ profile='https://www.mediawiki.org/wiki/Specs/HTML/2.1.0'"""
             rel: str = a['rel']
             if 'mw:WikiLink' in rel:
                 old_link = a['href']
-                new_link = f"//{settings.url}/wiki/{level}/" + old_link[2:]
+                new_link = f"//{settings.url}/wiki/" + old_link[2:]
                 a['href'] = new_link
 
     # Removed injected styles
@@ -88,9 +84,7 @@ def getMobile(title: str):
 
     url = f'https://en.wikipedia.org/api/rest_v1/page/segments/{title}'
 
-    headers = {
-        "accept": "application/json"
-    }
+    headers = {"accept": "application/json"}
     response = requests.get(url, headers)
 
     soup = BeautifulSoup(response.text, 'html.parser')

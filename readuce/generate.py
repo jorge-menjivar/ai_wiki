@@ -1,7 +1,7 @@
 from database import ai_content
 from psycopg import AsyncConnection, Connection
-from nlp.openai import gpt3_davinci
-from readuce.utils import removeUnderscores
+from nlp.openai.gpt3_davinci import aInfer, infer
+from readuce.utils import removeItalics, removeUnderscores
 
 
 def overview(
@@ -10,21 +10,17 @@ def overview(
     title: str,
 ):
     pretty_title = removeUnderscores(title)
+    pretty_title = removeItalics(title)
     prompt = overviewPromptDavinci(level, pretty_title)
 
     if prompt is None:
         return
 
-    content, model = gpt3_davinci.infer(prompt)
+    content, model = infer(prompt)
 
-    ai_content.add(
-        conn,
-        level,
-        title,
-        "readuce",
-        content,
-        model
-    )
+    row = ai_content.add(conn, level, title, "readuce", content, model)
+
+    return row
 
 
 async def aOverview(
@@ -33,73 +29,65 @@ async def aOverview(
     title: str,
 ):
     pretty_title = removeUnderscores(title)
+    pretty_title = removeItalics(title)
     prompt = overviewPromptDavinci(level, pretty_title)
 
     if prompt is None:
         return
 
-    content, model = await gpt3_davinci.aInfer(prompt)
+    content, model = await aInfer(prompt)
 
-    await ai_content.aAdd(
-        aconn,
-        level,
-        title,
-        "readuce",
-        content,
-        model
-    )
+    row = await ai_content.aAdd(aconn, level, title, "readuce", content, model)
+
+    return row
 
 
-def subSection(
-    conn: Connection,
-    level: int,
-    title: str,
-    sub_section: str,
-    id: str
-):
+def subSection(conn: Connection, level: int, title: str, id: str):
 
     pretty_title = removeUnderscores(title)
+    pretty_title = removeItalics(title)
+    sub_section: str = removeUnderscores(id)
     prompt = sectionPromptDavinci(level, pretty_title, sub_section)
 
     if prompt is None:
         return
 
-    content, model = gpt3_davinci.infer(prompt)
+    content, model = infer(prompt)
 
-    ai_content.add(
+    row = ai_content.add(
         conn,
         level,
         title,
         section=id,
         content=content,
-        model=model
+        model=model,
     )
 
+    return row
 
-async def aSubSection(
-    aconn: AsyncConnection,
-    level: int,
-    title: str,
-    sub_section: str,
-    id: str
-):
+
+async def aSubSection(aconn: AsyncConnection, level: int, title: str, id: str):
 
     pretty_title = removeUnderscores(title)
+    pretty_title = removeItalics(title)
+    sub_section: str = removeUnderscores(id)
     prompt = sectionPromptDavinci(level, pretty_title, sub_section)
 
     if prompt is None:
         return
 
-    content, model = await gpt3_davinci.aInfer(prompt)
+    content, model = await aInfer(prompt)
 
-    await ai_content.aAdd(
+    row = await ai_content.aAdd(
         aconn,
         level,
         title,
         section=id,
         content=content,
-        model=model
+        model=model,
     )
+
+    return row
 
 
 def overviewPromptDavinci(level: int, title: str | None):

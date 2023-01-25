@@ -7,10 +7,14 @@ from psycopg.rows import TupleRow
 logger = get_task_logger(__name__)
 
 
-async def aCreateTitleTable(aconn: AsyncConnection,
-                            level: int,
-                            title: str,
-                            commit: bool = True):
+async def aCreateTitleTable(
+    aconn: AsyncConnection,
+    level: int,
+    title: str,
+    commit: bool = True,
+):
+
+    title = title.lower()
 
     # Create the table to store ai generated content if it doesn't exist
     await aconn.execute(
@@ -39,6 +43,10 @@ async def aGet(
     section: str,
     commit: bool = True,
 ):
+
+    title = title.lower()
+    section = section.lower()
+
     # Get the section content for a specific title
     acur = await aconn.execute(
         sql.SQL('''
@@ -77,6 +85,9 @@ async def aUpdate(
     commit: bool = True,
 ):
 
+    title = title.lower()
+    section = section.lower()
+
     await aconn.execute(
         sql.SQL('''
         UPDATE {table}
@@ -105,6 +116,9 @@ async def aAdd(
     model: str,
     commit: bool = True,
 ):
+
+    title = title.lower()
+    section = section.lower()
 
     # Add the content to a new section in the database
     acur = await aconn.execute(
@@ -144,6 +158,8 @@ def createTitleTable(
     commit: bool = True,
 ):
 
+    title = title.lower()
+
     # Create the table to store ai generated content if it doesn't exist
     conn.execute(
         sql.SQL('''
@@ -175,6 +191,9 @@ def get(
     section: str,
     commit: bool = True,
 ):
+
+    title = title.lower()
+    section = section.lower()
 
     # Get the section content for a specific title
     cur = conn.execute(
@@ -217,6 +236,9 @@ def update(
     commit: bool = True,
 ):
 
+    title = title.lower()
+    section = section.lower()
+
     conn.execute(
         sql.SQL('''
         UPDATE {table}
@@ -245,6 +267,9 @@ def add(
     model: str,
     commit: bool = True,
 ):
+
+    title = title.lower()
+    section = section.lower()
 
     logger.debug(f"conn: {conn}")
     logger.debug(f"level: {level}")

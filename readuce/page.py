@@ -1,20 +1,17 @@
-
 import aiohttp
 import asyncio
+from bs4 import BeautifulSoup
 from fastapi import HTTPException
 from psycopg import AsyncConnection, Connection
 from readuce.overview import aAddAIOverview, addAIOverview
 from readuce.utils import fixSideBarListTitle, fixMathFallbackImage
+from readuce.utils import includeTitle
 from readuce.sub_sections import aAddAISubSections, addAISubSections
 from wikipedia import data
 
 
-async def aGet(
-    aconn: AsyncConnection,
-    session: aiohttp.ClientSession,
-    title: str,
-    level: int
-):
+async def aGet(aconn: AsyncConnection, session: aiohttp.ClientSession,
+               title: str, level: int):
     soup = await data.aGetArticleSoup(session, title, level)
     await asyncio.gather(
         aAddAISubSections(aconn, soup, level, title),
@@ -23,21 +20,17 @@ async def aGet(
 
     fixSideBarListTitle(soup)
     fixMathFallbackImage(soup)
+    includeTitle(soup)
 
     if soup.body is not None:
-        return soup.body.prettify()
+        page = BeautifulSoup(f"<div>{soup.body}</div>", 'html.parser')
+        return page.prettify()
 
     print("Body not found")
-    raise HTTPException(
-        status_code=404, detail="Content not found"
-    )
+    raise HTTPException(status_code=404, detail="Content not found")
 
 
-def get(
-    conn: Connection,
-    title: str,
-    level: int
-):
+def get(conn: Connection, title: str, level: int):
     soup = data.getArticleSoup(title, level)
 
     addAISubSections(conn, soup, level, title)
@@ -50,6 +43,4 @@ def get(
         return soup.body.prettify()
 
     print("Body not found")
-    raise HTTPException(
-        status_code=404, detail="Content not found"
-    )
+    raise HTTPException(status_code=404, detail="Content not found")

@@ -5,12 +5,8 @@ from psycopg import AsyncConnection, Connection
 from readuce import generate
 
 
-async def aAddAIOverview(
-    aconn: AsyncConnection,
-    soup: BeautifulSoup,
-    level: int,
-    title: str
-):
+async def aAddAIOverview(aconn: AsyncConnection, soup: BeautifulSoup,
+                         level: int, title: str):
 
     if soup.body is not None:
 
@@ -22,9 +18,7 @@ async def aAddAIOverview(
         model: str = ""
         timestamp: str = ""
         if row is None:
-            asyncio.create_task(
-                generate.aOverview(aconn, level, title)
-            )
+            asyncio.create_task(generate.aOverview(aconn, level, title))
 
         else:
             content = row.content
@@ -42,20 +36,14 @@ async def aAddAIOverview(
                             <p class="overview_disclaimer">{disclaimer}</p>
                             <p class="overview_content">{content}</p>
                         </div>
-                    <h2>Article</h2> {first_p}''',
-                'html.parser'
-            )
+                    <h2>Article</h2> {first_p}''', 'html.parser')
 
             if first_p is not None:
                 first_p.replace_with(tag)
 
 
-def addAIOverview(
-    conn: Connection,
-    soup: BeautifulSoup,
-    level: int,
-    title: str
-):
+def addAIOverview(conn: Connection, soup: BeautifulSoup, level: int,
+                  title: str):
 
     if soup.body is not None:
 
@@ -85,9 +73,7 @@ def addAIOverview(
                             <p class="overview_disclaimer">{disclaimer}</p>
                             <p class="overview_content">{content}</p>
                         </div>
-                    <h2>Article</h2> {first_p}''',
-                'html.parser'
-            )
+                    <h2>Article</h2> {first_p}''', 'html.parser')
 
             if first_p is not None:
                 first_p.replace_with(tag)

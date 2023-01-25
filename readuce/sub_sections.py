@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from database import ai_content
 from psycopg import AsyncConnection, Connection
 from readuce import generate
-from readuce.utils import removeUnderscores
 
 
 async def aAddAISubSections(
@@ -25,26 +24,17 @@ async def aAddAISubSections(
 
             row = await ai_content.aGet(aconn, level, title, section=id)
 
-            content: str = ""
             if row is None:
-                sub_section: str = removeUnderscores(id)
 
                 asyncio.create_task(
-                    generate.aSubSection(aconn, level, title, sub_section, id)
-                )
+                    generate.aSubSection(aconn, level, title, id))
 
-            else:
-                content = row.content
+            tag = BeautifulSoup(
+                f"""{ss_tag}\
+                <div class='ai_sub_section' id='ai_{id}'>
+                </div>""", 'html.parser')
 
-                tag = BeautifulSoup(
-                    f"""{ss_tag}\
-                    <div class='ai_sub_section'>\
-                        <p>{content}</p>\
-                    </div>""",
-                    'html.parser'
-                )
-
-                ss_tag.replace_with(tag)
+            ss_tag.replace_with(tag)
 
 
 def addAISubSections(
@@ -67,21 +57,13 @@ def addAISubSections(
 
             row = ai_content.get(conn, level, title, section=id)
 
-            content: str = ""
             if row is None:
-                sub_section: str = removeUnderscores(id)
 
-                generate.subSection(conn, level, title, sub_section, id)
+                generate.subSection(conn, level, title, id)
 
-            else:
-                content = row.content
+            tag = BeautifulSoup(
+                f"""{ss_tag}\
+                <div class='ai_sub_section'>
+                </div>""", 'html.parser')
 
-                tag = BeautifulSoup(
-                    f"""{ss_tag}\
-                    <div class='ai_sub_section'>\
-                        <p>{content}</p>\
-                    </div>""",
-                    'html.parser'
-                )
-
-                ss_tag.replace_with(tag)
+            ss_tag.replace_with(tag)
