@@ -116,6 +116,7 @@ figure[typeof~="mw:File/Frame"].mw-halign-none {
   margin-bottom: 0.5em;
   clear: none;
   float: none;
+  display: flex;
 }
 
 figure[typeof~="mw:File/Thumb"].mw-halign-center,
@@ -200,5 +201,48 @@ figure[typeof~="mw:File/Thumb"]:not([typeof~="mw:Error"]) > a:after {
 
 img,
 figure {
+  height: max-content;
+  max-width: 100%;
+  aspect-ratio: auto;
   page-break-inside: avoid;
+}
+
+@media (max-width: 720px) {
+  img,
+  figure {
+    height: max-content;
+    max-width: 100%;
+    aspect-ratio: auto;
+    page-break-inside: avoid;
+  }
+}
+
+@media (max-width: 720px) {
+  figure[typeof~="mw:File/Thumb"],
+  figure[typeof~="mw:File/Frame"] {
+    margin: 8 auto;
+    clear: none;
+    float: none;
+  }
+
+  figure[typeof~="mw:File/Thumb"].mw-halign-right,
+  figure[typeof~="mw:File/Frame"].mw-halign-right {
+    margin: 8 auto;
+    clear: none;
+    float: none;
+  }
+
+  figure[typeof~="mw:File/Thumb"].mw-halign-left,
+  figure[typeof~="mw:File/Frame"].mw-halign-left {
+    margin: 8 auto;
+    clear: none;
+    float: none;
+  }
+
+  figure[typeof~="mw:File/Thumb"].mw-halign-none,
+  figure[typeof~="mw:File/Frame"].mw-halign-none {
+    margin: 8 auto;
+    clear: none;
+    float: none;
+  }
 }

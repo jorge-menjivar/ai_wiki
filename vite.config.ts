@@ -9,11 +9,11 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       output: {
-        dir: "/home/jorge/python_projects/wiki/",
+        dir: "/home/jorge/python_projects/readuce_back/",
       },
     },
   },
   server: {
-    origin: "http://192.168.1.12:4000",
+    origin: "http://localhost:4000",
   },
 });

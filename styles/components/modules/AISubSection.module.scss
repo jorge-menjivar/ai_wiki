@@ -2,9 +2,17 @@
   border-radius: 12px;
   background-color: var(--ai-section-bg-color);
   color: var(--ai-section-color);
-  display: flex;
+  direction: ltr;
+  display: block;
   font-weight: 600;
   margin: 16px 0;
   padding: 12px;
   width: fit-content;
+}
+
+.ai_sub_section_content {
+  display: block;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
 }

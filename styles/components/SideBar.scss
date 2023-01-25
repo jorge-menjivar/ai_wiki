@@ -101,6 +101,13 @@ body.skin-minerva .sidebar {
   text-align: center;
   margin: 0 3.3em;
 }
+
+.sidebar-list-title {
+  background-color: var(--side-bar-list-title-bg-color);
+  border-radius: 4px;
+  padding: 4px;
+}
+
 @media (max-width: 720px) {
   body.mediawiki .sidebar {
     width: 100% !important;
@@ -111,8 +118,19 @@ body.skin-minerva .sidebar {
   }
 }
 
-.sidebar-list-title {
-  background-color: var(--side-bar-list-title-bg-color);
-  border-radius: 4px;
-  padding: 4px;
+@media (max-width: 720px) {
+  .sidebar {
+    background-color: var(--side-bar-bg-color);
+    border: 1px solid var(--side-bar-border-color);
+    border-radius: 12px;
+    color: var(--side-bar-color);
+    clear: right;
+    float: right;
+    margin: 4px;
+    padding: 0.2em;
+    text-align: center;
+    line-height: 1.4em;
+    display: block;
+    width: 100%;
+  }
 }

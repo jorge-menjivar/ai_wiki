@@ -27,7 +27,7 @@
   text-align: center;
 }
 .navbox-group {
-  white-space: nowrap;
+  white-space: normal;
   text-align: right;
 }
 .navbox,
@@ -83,4 +83,24 @@ tr + tr > .navbox-list {
   float: left;
   text-align: left;
   margin-right: 0.5em;
+  max-width: 100%;
+}
+
+.nounderlines a,
+.IPA a:link,
+.IPA a:visited {
+  text-decoration: none !important;
+  max-width: 100%;
+}
+
+.nowrap,
+.nowraplinks a {
+  white-space: normal;
+  max-width: 100%;
+}
+
+.wrap,
+.wraplinks a {
+  white-space: normal;
+  max-width: 100%;
 }
