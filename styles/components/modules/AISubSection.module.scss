@@ -3,11 +3,12 @@
   background-color: var(--ai-section-bg-color);
   color: var(--ai-section-color);
   direction: ltr;
-  display: block;
+  display: flow-root;
   font-weight: 600;
   margin: 16px 0;
+  position: relative;
   padding: 12px;
-  width: fit-content;
+  width: auto;
 }
 
 .ai_sub_section_content {

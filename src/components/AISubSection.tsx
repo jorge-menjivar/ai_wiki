@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SectionDropdown } from "./SectionDropdown";
 import styles from "/styles/components/modules/AISubSection.module.scss";
 
-export const AISubSection = ({ id, title, children, original_level }: any) => {
-  const [level, setLevel] = useState<number[] | number>(original_level);
+export const AISubSection = ({ id, title, children, page_level }: any) => {
+  const fetched = useRef(0);
+  const [level, setLevel] = useState<number>(page_level);
 
   const [content, setContent] = useState<string>(children);
   const [model, setModel] = useState<string>("");
   const [timestamp, setTimestamp] = useState<string>("");
+
+  useEffect(() => {
+    if (fetched.current != level) {
+      fetched.current = level;
+      fetchContent();
+    }
+  }, [level]);
+
+  useEffect(() => {
+    setLevel(page_level);
+  }, [page_level]);
 
   async function fetchContent() {
     const body = {
@@ -31,14 +43,12 @@ export const AISubSection = ({ id, title, children, original_level }: any) => {
         setModel(data.model);
         setTimestamp(data.timestamp);
       }
-      console.log(data);
     });
   }
 
   const updateLevel = (level: number[]) => {
     console.log("changing level");
     setLevel(level[0]);
-    fetchContent();
   };
 
   return (

@@ -1,12 +1,5 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import {
-  HamburgerMenuIcon,
-  DotFilledIcon,
-  CheckIcon,
-  ChevronRightIcon,
-} from "@radix-ui/react-icons";
 import styles from "/styles/components/modules/SectionDropdown.module.scss";
-import React from "react";
 import { SectionSlider } from "./SectionSlider";
 
 export const SectionDropdown = ({
@@ -16,7 +9,7 @@ export const SectionDropdown = ({
   onValueChange,
 }: any) => {
   return (
-    <DropdownMenu.Root>
+    <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger asChild>
         <button className={styles.icon_button} aria-label="Change Level">
           <div className={styles.level}>{value}</div>

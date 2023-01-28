@@ -12,9 +12,9 @@ function Page() {
   const [data, setData] = useState<string | null>(null);
   const [level, setLevel] = useState<number>(3);
   const title = useRef("");
-  const fetched = useRef(0);
+  const initialized = useRef(false);
 
-  const updateLevel = (level: number) => setLevel(level);
+  const updateLevel = (level: number[]) => setLevel(level[0]);
 
   async function fetchContent() {
     try {
@@ -31,9 +31,15 @@ function Page() {
   }
 
   useEffect(() => {
-    if (fetched.current != level) {
-      console.log("fetching");
-      fetched.current = level;
+    if (!initialized.current) {
+      initialized.current = true;
+      fetchContent();
+    }
+  }, [level, params.title]);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
       fetchContent();
     }
   }, [level, params.title]);
@@ -57,11 +63,7 @@ function Page() {
 
       if (attribs.class === "ai_sub_section") {
         return (
-          <AISubSection
-            original_level={level}
-            title={params.title}
-            id={attribs.id}
-          >
+          <AISubSection page_level={level} title={params.title} id={attribs.id}>
             {domToReact(children, options)}
           </AISubSection>
         );
