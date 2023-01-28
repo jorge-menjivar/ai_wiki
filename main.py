@@ -6,7 +6,7 @@ import uvicorn
 from database import ai_content
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from psycopg.rows import namedtuple_row
@@ -15,9 +15,9 @@ from urllib.parse import quote
 from readuce import generate, page
 from settings import get_settings
 from security.leaky_bucket import makeRequest
+from utils import logging
 # from tasks import genAllLevels
 # from tasks import genAllLinks
-from wikipedia import data
 
 settings = get_settings()
 _http_client_session = None
@@ -27,6 +27,8 @@ f = open("manifest.json")
 vite_manifest = json.load(f)
 
 openai.api_key = settings.openai_api_key
+
+logger = logging.getMainLogger()
 
 app = FastAPI(root_path="/")
 
@@ -122,8 +124,8 @@ async def generate_page(request: Request, level: int, title: str):
     aconn = await getPGConnection()
     if await makeRequest(aconn, ip, 1):
         session = await getHTTPClientSession()
-        openai.aiosession.set(session)
-        html = await page.aGet(aconn, session, title, level)
+
+        html = await page.aGet(session, title)
         # genAllLevels.delay(html, title)
         # genAllLinks.delay(html, level)
         return html
@@ -137,7 +139,14 @@ async def get_content(request: Request, config: ContentConfig):
     if request.client is not None:
         ip = request.client.host
 
-    aconn = await getPGConnection()
+    aconn = await psycopg.AsyncConnection.connect(
+        host=settings.postgres_host,
+        dbname=settings.postgres_db,
+        user=settings.postgres_user,
+        password=settings.postgres_pass,
+        row_factory=namedtuple_row)
+    aconn.add_notice_handler(log_notice)
+
     if await makeRequest(aconn, ip, 1):
         session = await getHTTPClientSession()
         openai.aiosession.set(session)
@@ -175,15 +184,16 @@ async def get_content(request: Request, config: ContentConfig):
                 "timestamp": row.timestamp
             }
 
+        logger.error("Unable to get content")
         raise HTTPException(status_code=500, detail="Unable to get content")
 
     raise HTTPException(status_code=403, detail="Too many requests")
 
 
-@app.get("/w/{res_path:path}", response_class=HTMLResponse)
-async def stylesheet(request: Request, res_path: str):
-    res = data.getResource(res_path)
-    return res
+@app.get("/redirect")
+async def redirect():
+    response = RedirectResponse(url='/redirected')
+    return response
 
 
 @app.get("/test/tasks/{title:path}", response_class=HTMLResponse)
@@ -198,7 +208,7 @@ async def test_tasks(request: Request, title: str):
     if await makeRequest(aconn, ip, 1):
         session = await getHTTPClientSession()
         openai.aiosession.set(session)
-        html = await page.aGet(aconn, session, title, 1)
+        html = await page.aGet(session, title)
         # genAllLevels.delay(html, title)
         # genAllLinks.delay(html, 1)
         return html
@@ -208,7 +218,7 @@ async def test_tasks(request: Request, title: str):
 
 if __name__ == "__main__":
     uvicorn.run(
-        app,  # type: ignore
+        "main:app",  # type: ignore
         host=settings.host,
         port=4000,
-    )
+        workers=4)
