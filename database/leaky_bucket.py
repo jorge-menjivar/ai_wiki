@@ -1,48 +1,34 @@
-from typing import Optional
 from psycopg import sql, AsyncConnection
-from psycopg.rows import TupleRow
+
+from utils import logging
+
+logger = logging.getMainLogger()
 
 
-async def aCreateIPTable(aconn: AsyncConnection, ip: str):
+async def aGetTokens(aconn: AsyncConnection, ip: str, time_window):
 
-    # Create the table to store the tokens if it doesn't already exist
-    await aconn.execute(sql.SQL(
-        '''
-        CREATE TABLE IF NOT EXISTS leaky_bucket.{ip} (
-            token_timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
-            token_count INTEGER NOT NULL
-        )
-        '''
-    ).format(ip=sql.Identifier(ip)))
+    # Get the current number of tokens in the bucket
+    acur = await aconn.execute(
+        sql.SQL('''
+        SELECT SUM(token_count)
+        FROM security.leaky_bucket
+        WHERE ip = {ip}
+        AND timestamp > NOW() - INTERVAL '{window} seconds'
+        ''').format(ip=ip, window=time_window))
+
+    fetch = await acur.fetchone()
 
     await aconn.commit()
 
-
-async def aGet(aconn: AsyncConnection, ip: str, time_window):
-
-    async with aconn.cursor() as acur:
-
-        # Get the current number of tokens in the bucket
-        await acur.execute(sql.SQL(
-            '''
-            SELECT SUM(token_count)
-            FROM leaky_bucket.{ip}
-            WHERE token_timestamp > NOW() - INTERVAL '{window} seconds'
-            '''
-        ).format(ip=sql.Identifier(ip), window=time_window))
-
-        fetch: Optional[TupleRow] = await acur.fetchone()
-
-        return fetch
+    return fetch
 
 
-async def aAdd(aconn: AsyncConnection, ip: str, count: int):
+async def aAddTokens(aconn: AsyncConnection, ip: str, count: int):
     # Add the specified number of tokens to the bucket
-    await aconn.execute(sql.SQL(
+    await aconn.execute(
         '''
-        INSERT INTO leaky_bucket.{ip} (token_timestamp, token_count)
-        VALUES (NOW(), {count})
-        '''
-    ).format(ip=sql.Identifier(ip), count=count))
+        INSERT INTO security.leaky_bucket (ip, timestamp, token_count)
+        VALUES (%s, NOW(), %s)
+        ''', (ip, count))
 
     await aconn.commit()

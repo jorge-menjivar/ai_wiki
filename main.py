@@ -145,7 +145,8 @@ async def get_content(request: Request, config: ContentConfig):
         dbname=settings.postgres_db,
         user=settings.postgres_user,
         password=settings.postgres_pass,
-        row_factory=namedtuple_row)
+        row_factory=namedtuple_row,
+    )
     aconn.add_notice_handler(log_notice)
 
     if await makeRequest(aconn, ip, 1):
@@ -177,6 +178,7 @@ async def get_content(request: Request, config: ContentConfig):
                 )
 
         if row is not None:
+            await aconn.close()
             return {
                 "content": row['content'],
                 "model": row['model'],
@@ -184,8 +186,10 @@ async def get_content(request: Request, config: ContentConfig):
             }
 
         logger.error("Unable to get content")
+        await aconn.close()
         raise HTTPException(status_code=500, detail="Unable to get content")
 
+    await aconn.close()
     raise HTTPException(status_code=403, detail="Too many requests")
 
 

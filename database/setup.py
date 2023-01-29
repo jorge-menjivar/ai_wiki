@@ -37,10 +37,10 @@ def __createSchemas(conn: Connection):
             ''').format(schema=sql.Identifier(parsing.getLevelString(i))))
 
     # Create a cache schema
-    conn.execute(
-        sql.SQL('''
-        CREATE SCHEMA IF NOT EXISTS {schema};
-        ''').format(schema=sql.Identifier("cache")))
+    conn.execute('''CREATE SCHEMA IF NOT EXISTS cache;''')
+
+    # Create a security schema
+    conn.execute('''CREATE SCHEMA IF NOT EXISTS security;''')
 
     try:
         conn.commit()
@@ -66,13 +66,21 @@ def __createTables(conn: Connection):
                 table=sql.Identifier(parsing.getLevelString(i), "contents")))
 
     # Create table to store wikipedia pages inside cache schema
-    conn.execute(
-        sql.SQL('''
-        CREATE TABLE IF NOT EXISTS {table} (
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS cache.pages (
             "title" varchar PRIMARY KEY NOT NULL,
             "soup" varchar NOT NULL
         );
-        ''').format(table=sql.Identifier("cache", "pages")))
+        ''')
+
+    # Create table to leaky_bucket data inside the security schema
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS security.leaky_bucket (
+            "ip" varchar NOT NULL,
+            "timestamp" TIMESTAMP WITH TIME ZONE NOT NULL,
+            "token_count" INTEGER NOT NULL
+        );
+        ''')
 
     try:
         conn.commit()
