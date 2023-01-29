@@ -3,7 +3,8 @@ import json
 import openai
 import psycopg
 import uvicorn
-from database import ai_content
+from database.content import aGetContent
+from database.setup import setupDatabase
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
@@ -13,13 +14,13 @@ from psycopg.rows import namedtuple_row
 from pydantic import BaseModel
 from urllib.parse import quote
 from readuce import generate, page
-from settings import get_settings
+from settings import getSettings
 from security.leaky_bucket import makeRequest
 from utils import logging
-# from tasks import genAllLevels
-# from tasks import genAllLinks
 
-settings = get_settings()
+setupDatabase()
+
+settings = getSettings()
 _http_client_session = None
 _pg_connection = None
 
@@ -59,7 +60,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 def log_notice(diag):
-    print(f"The server says: {diag.severity} - {diag.message_primary}")
+    print(f"POSTGRESQL: {diag.severity} - {diag.message_primary}")
 
 
 async def getPGConnection():
@@ -155,9 +156,7 @@ async def get_content(request: Request, config: ContentConfig):
         if id != "readuce":
             id = id[3:]
 
-        await ai_content.aCreateTitleTable(aconn, config.level, config.title)
-
-        row = await ai_content.aGet(aconn, config.level, config.title, id)
+        row = await aGetContent(aconn, config.level, config.title, id)
 
         if row is None:
 
@@ -179,9 +178,9 @@ async def get_content(request: Request, config: ContentConfig):
 
         if row is not None:
             return {
-                "content": row.content,
-                "model": row.model,
-                "timestamp": row.timestamp
+                "content": row['content'],
+                "model": row['model'],
+                "timestamp": row['timestamp']
             }
 
         logger.error("Unable to get content")
@@ -221,4 +220,4 @@ if __name__ == "__main__":
         "main:app",  # type: ignore
         host=settings.host,
         port=4000,
-        workers=4)
+        workers=1)

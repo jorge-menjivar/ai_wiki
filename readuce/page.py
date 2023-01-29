@@ -1,21 +1,19 @@
-import aiohttp
 import asyncio
+import aiohttp
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
-from psycopg import AsyncConnection, Connection
 from readuce.overview import aAddAIOverview, addAIOverview
+from readuce.sub_sections import aAddAISubSections, addAISubSections
 from readuce.utils import fixSideBarListTitle, fixMathFallbackImage
 from readuce.utils import includeTitle
-from readuce.sub_sections import aAddAISubSections, addAISubSections
 from wikipedia import data
 
 
-async def aGet(aconn: AsyncConnection, session: aiohttp.ClientSession,
-               title: str, level: int):
-    soup = await data.aGetArticleSoup(session, title, level)
+async def aGet(session: aiohttp.ClientSession, title: str):
+    soup = await data.aGetArticleSoup(session, title)
     await asyncio.gather(
-        aAddAISubSections(aconn, soup, level, title),
-        aAddAIOverview(aconn, soup, level, title),
+        aAddAISubSections(soup),
+        aAddAIOverview(soup),
     )
 
     fixSideBarListTitle(soup)
@@ -30,11 +28,11 @@ async def aGet(aconn: AsyncConnection, session: aiohttp.ClientSession,
     raise HTTPException(status_code=404, detail="Content not found")
 
 
-def get(conn: Connection, title: str, level: int):
-    soup = data.getArticleSoup(title, level)
+def get(title: str):
+    soup = data.getArticleSoup(title)
 
-    addAISubSections(conn, soup, level, title)
-    addAIOverview(conn, soup, level, title)
+    addAISubSections(soup)
+    addAIOverview(soup)
 
     fixSideBarListTitle(soup)
     fixMathFallbackImage(soup)

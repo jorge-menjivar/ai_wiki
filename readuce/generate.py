@@ -1,4 +1,5 @@
 from database import ai_content
+from database.content import aAddContent
 from psycopg import AsyncConnection, Connection
 from nlp.openai.gpt3_davinci import aInfer, infer
 from readuce.utils import removeItalics, removeUnderscores
@@ -37,7 +38,7 @@ async def aOverview(
 
     content, model = await aInfer(prompt)
 
-    row = await ai_content.aAdd(aconn, level, title, "readuce", content, model)
+    row = await aAddContent(aconn, level, title, "readuce", content, model)
 
     return row
 
@@ -78,7 +79,7 @@ async def aSubSection(aconn: AsyncConnection, level: int, title: str, id: str):
 
     content, model = await aInfer(prompt)
 
-    row = await ai_content.aAdd(
+    row = await aAddContent(
         aconn,
         level,
         title,

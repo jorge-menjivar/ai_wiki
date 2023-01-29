@@ -1,10 +1,10 @@
-from celery.utils.log import get_task_logger
 from typing import Optional
+from utils import logging
 from psycopg import sql, AsyncConnection, Connection
 from psycopg import ProgrammingError, IntegrityError
 from psycopg.rows import TupleRow
 
-logger = get_task_logger(__name__)
+logger = logging.getMainLogger()
 
 
 async def aCreateTitleTable(
@@ -32,7 +32,7 @@ async def aCreateTitleTable(
             await aconn.commit()
 
         except IntegrityError:
-            logger.warning("ROLLING BACK")
+            logger.error("ROLLING BACK")
             await aconn.rollback()
 
 
