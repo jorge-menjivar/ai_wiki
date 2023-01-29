@@ -5,9 +5,9 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     app_name: str = ''
     leaky_bucket_token_limit: int = 20
-    leaky_bucket_time_window: int = 60*60
+    leaky_bucket_time_window: int = 60 * 60
     host: str = ''
-    max_levels = 7
+    max_levels = 5
     mystic_api_token: str = ''
     mystic_gpt3_neo_2_7b_id: str = ''
     mystic_gpt3_j_id: str = ''
@@ -23,5 +23,5 @@ class Settings(BaseSettings):
 
 
 @lru_cache()
-def get_settings():
+def getSettings():
     return Settings()

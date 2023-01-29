@@ -1,7 +1,7 @@
 import openai
-from settings import get_settings
+from settings import getSettings
 
-settings = get_settings()
+settings = getSettings()
 
 
 async def aInfer(text: str):

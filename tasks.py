@@ -9,11 +9,11 @@ from psycopg.rows import namedtuple_row
 from database import ai_content
 from readuce import generate
 from readuce.utils import removeUnderscores
-from settings import get_settings
+from settings import getSettings
 from wikipedia import data
 from openai.util import logger as openai_logger
 
-settings = get_settings()
+settings = getSettings()
 
 openai.api_key = settings.openai_api_key
 openai_logger.disabled = True
@@ -82,7 +82,7 @@ def genAISubSection(level: int, title: str, sub_section: str, id: str):
     # """)
 
     conn = newPSQLConnection()
-    generate.subSection(conn, level, title, sub_section, id)
+    generate.subSection(conn, level, title, id)
 
 
 @worker.task

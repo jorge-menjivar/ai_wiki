@@ -1,13 +1,12 @@
 import aiohttp
 import requests
-from settings import get_settings
+from settings import getSettings
 from bs4 import BeautifulSoup
 
-settings = get_settings()
+settings = getSettings()
 
 
-async def aGetArticleSoup(session: aiohttp.ClientSession, title: str,
-                          level: int):
+async def aGetArticleSoup(session: aiohttp.ClientSession, title: str):
     # Downloading data for title
 
     url = f'https://en.wikipedia.org/api/rest_v1/page/html/{title}'
@@ -44,7 +43,7 @@ profile='https://www.mediawiki.org/wiki/Specs/HTML/2.1.0'"""
         return soup
 
 
-def getArticleSoup(title: str, level: int):
+def getArticleSoup(title: str):
     # Downloading data for title
 
     url = f'https://en.wikipedia.org/api/rest_v1/page/html/{title}'

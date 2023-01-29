@@ -1,9 +1,8 @@
 from database.leaky_bucket import aCreateIPTable, aAdd, aGet
 from psycopg import AsyncConnection
-from settings import get_settings
+from settings import getSettings
 
-
-settings = get_settings()
+settings = getSettings()
 
 # Number of requests allowed per time period
 TOKEN_LIMIT = settings.leaky_bucket_token_limit

@@ -1,7 +1,7 @@
 from pipeline import PipelineCloud
-from settings import get_settings
+from settings import getSettings
 
-settings = get_settings()
+settings = getSettings()
 
 
 def infer(api: PipelineCloud, text: str):
