@@ -1,27 +1,7 @@
-from database import ai_content
 from database.content import aAddContent
-from psycopg import AsyncConnection, Connection
-from nlp.openai.gpt3_davinci import aInfer, infer
+from psycopg import AsyncConnection
+from nlp.openai.gpt3_davinci import aInfer
 from readuce.utils import removeItalics, removeUnderscores
-
-
-def overview(
-    conn: Connection,
-    level: int,
-    title: str,
-):
-    pretty_title = removeUnderscores(title)
-    pretty_title = removeItalics(title)
-    prompt = overviewPromptDavinci(level, pretty_title)
-
-    if prompt is None:
-        return
-
-    content, model = infer(prompt)
-
-    row = ai_content.add(conn, level, title, "readuce", content, model)
-
-    return row
 
 
 async def aOverview(
@@ -39,30 +19,6 @@ async def aOverview(
     content, model = await aInfer(prompt)
 
     row = await aAddContent(aconn, level, title, "readuce", content, model)
-
-    return row
-
-
-def subSection(conn: Connection, level: int, title: str, id: str):
-
-    pretty_title = removeUnderscores(title)
-    pretty_title = removeItalics(title)
-    sub_section: str = removeUnderscores(id)
-    prompt = sectionPromptDavinci(level, pretty_title, sub_section)
-
-    if prompt is None:
-        return
-
-    content, model = infer(prompt)
-
-    row = ai_content.add(
-        conn,
-        level,
-        title,
-        section=id,
-        content=content,
-        model=model,
-    )
 
     return row
 

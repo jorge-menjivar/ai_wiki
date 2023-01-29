@@ -7,7 +7,7 @@ from database.content import aGetContent
 from database.setup import setupDatabase
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from psycopg.rows import namedtuple_row
@@ -193,35 +193,10 @@ async def get_content(request: Request, config: ContentConfig):
     raise HTTPException(status_code=403, detail="Too many requests")
 
 
-@app.get("/redirect")
-async def redirect():
-    response = RedirectResponse(url='/redirected')
-    return response
-
-
-@app.get("/test/tasks/{title:path}", response_class=HTMLResponse)
-async def test_tasks(request: Request, title: str):
-    title = quote(title, safe='')
-    print(f'title is: {title}')
-    ip = "all"
-    if request.client is not None:
-        ip = request.client.host
-
-    aconn = await getPGConnection()
-    if await makeRequest(aconn, ip, 1):
-        session = await getHTTPClientSession()
-        openai.aiosession.set(session)
-        html = await page.aGet(session, title)
-        # genAllLevels.delay(html, title)
-        # genAllLinks.delay(html, 1)
-        return html
-
-    raise HTTPException(status_code=403, detail="Too many requests")
-
-
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",  # type: ignore
         host=settings.host,
         port=4000,
-        workers=1)
+        workers=4,
+    )
