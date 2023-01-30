@@ -19,6 +19,19 @@ setup = False
 
 
 def setupDatabase():
+    """
+    Sets up the PostgreSQL database for the application.
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
+
+    """
+
     global setup
     if setup is False:
         setup = True

@@ -7,6 +7,34 @@ settings = getSettings()
 
 
 async def aGetArticleSoup(session: aiohttp.ClientSession, title: str):
+    """
+    Downloads data for the specified title and returns a BeautifulSoup object.
+    Updates links to match the current url, removes injected styles and
+    removes AMBoxes.
+
+    Parameters
+    ----------
+    session : aiohttp.ClientSession
+        A session used to make the request.
+    title : str
+        The title of the article to download.
+
+    Returns
+    -------
+    soup : bs4.BeautifulSoup
+        A BeautifulSoup object containing the HTML of the downloaded article.
+
+    Notes
+    -----
+    None.
+
+    Examples
+    --------
+
+    ## Download article with title 'Example Article'
+    soup = np.aGetArticleSoup(session, 'Example Article')
+    """
+
     # Downloading data for title
 
     url = f'https://en.wikipedia.org/api/rest_v1/page/html/{title}'

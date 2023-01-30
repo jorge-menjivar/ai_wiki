@@ -5,6 +5,19 @@ settings = getSettings()
 
 
 async def aInfer(text: str):
+    """
+    aInfer(text: str)
+
+    Parameters:
+
+    text (str): Text to generate completion for.
+
+    Returns:
+
+    content (str): Generated completion based on input text.
+    model (str): Model used to generate completion.
+
+    """
 
     response = await openai.Completion.acreate(
         model="text-davinci-003",

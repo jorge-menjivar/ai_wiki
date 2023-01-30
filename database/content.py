@@ -16,6 +16,34 @@ async def aGetContent(
     section: str,
     commit: bool = True,
 ):
+    """
+    Parameters
+    ----------
+    aconn : AsyncConnection
+        Async connection to the database.
+    level : int
+        The level at which the content should be retrieved.
+    title : str
+        Title of the content.
+    section : str
+        Section of the content to be retrieved.
+    commit : bool, optional
+        If `True`, the changes in the database made by the function are
+        committed.
+        The default is `True`.
+
+    Returns
+    -------
+    section_data : None | dict[str, str]
+        Dict containing the content of the specified section, if found and
+        `None` otherwise.
+
+    Raises
+    ...
+        If an error is encountered during the fetching of data.
+    IntegrityError
+        If an integrity problem is encountered and a rollback is made.
+    """
 
     title = title.lower()
     section = section.lower()
@@ -63,6 +91,32 @@ async def aAddContent(
     model: str,
     commit: bool = True,
 ):
+    """
+    Parameters
+    ----------
+    aconn: AsyncConnection
+        An asynchronous connection to a PostgreSQL database.
+    level: int
+        The level of the section the content is being added to.
+    title: str
+        The title of the content.
+    section: str
+        The name of the section to add the content to.
+    content: str
+        The content to be added to the section.
+    model: str
+        The model type of the content.
+    commit: bool, optional
+        Whether or not to commit changes to the database. Default is True.
+
+    Returns
+    -------
+    section_data: None | dict[str, str]
+    ...
+        If there was an error when fetching the new section data.
+    IntegrityError:
+        If there was an error when committing the changes to the database.
+    """
 
     title = title.lower()
     section = section.lower()

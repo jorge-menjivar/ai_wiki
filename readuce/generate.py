@@ -9,6 +9,24 @@ async def aOverview(
     level: int,
     title: str,
 ):
+    """
+    Asynchronously generate a summary of an article given its title.
+
+    Parameters
+    ----------
+    aconn : AsyncConnection
+        The async connection to the database.
+    level : int
+        The article level.
+    title : str
+        The article title.
+
+    Returns
+    -------
+    row : dict
+        The row of the generated content saved in the database, or None.
+    """
+
     pretty_title = removeUnderscores(title)
     pretty_title = removeItalics(title)
     prompt = overviewPromptDavinci(level, pretty_title)
@@ -24,6 +42,27 @@ async def aOverview(
 
 
 async def aSubSection(aconn: AsyncConnection, level: int, title: str, id: str):
+    """
+    Parameters:
+        aconn (AsyncConnection): Connection object for asynchronous database
+        connection
+        level (int): Level of the subsection
+        title (str): Title of the subsection
+        id (str): Unique identifier of the subsection
+
+    Returns:
+        row (dict): Dictionary of content row data
+
+    Description:
+        This function takes a connection object, level, title, and subsection
+        id and returns the row data of the content. It uses the
+        removeUnderscores and removeItalics functions to remove underscores
+        and italics from the subsection title. It then uses the
+        sectionPromptDavinci function to generate a prompt which is used in
+        the aInfer function to generate content and model. The generated
+        content and model are used in the aAddContent function to add a
+        content row to the database.
+    """
 
     pretty_title = removeUnderscores(title)
     pretty_title = removeItalics(title)

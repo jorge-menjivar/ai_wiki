@@ -13,6 +13,30 @@ logger = logging.getMainLogger()
 
 
 async def aGet(session: aiohttp.ClientSession, title: str):
+    '''
+    Summary
+    -------
+    Asynchronously get article content from wikipedia given a title as an
+    input.
+
+    Parameters
+    ----------
+    session: aiohttp.ClientSession
+        ClientSession object to make the request.
+    title: str
+        Title of the article.
+
+    Returns
+    -------
+    page: BeautifulSoup
+        Article contents as a BeautifulSoup object.
+
+    Raises
+    ------
+    HTTPException
+        If article body is not found.
+    '''
+
     soup = await data.aGetArticleSoup(session, title)
     await asyncio.gather(
         aAddAISubSections(soup),
