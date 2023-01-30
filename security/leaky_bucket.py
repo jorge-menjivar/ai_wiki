@@ -13,21 +13,20 @@ TIME_WINDOW = settings.leaky_bucket_time_window
 
 
 async def makeRequest(aconn: AsyncConnection, ip: str, count: int):
-    logger.info(f"Source: {ip}")
     # Check if there are enough tokens in the bucket to make the request
     requests = 0
     fetch = await aGetTokens(aconn, ip, TIME_WINDOW)
     if fetch is not None:
         if fetch.sum is not None:
             requests = fetch.sum
-    logger.info(f"Requests in last {TIME_WINDOW // 60} minutes: {requests}")
 
     # The remaining number of tokens for the time period
     remaining = TOKEN_LIMIT - requests
 
-    logger.info(f"Requests remaining: {remaining}")
+    logger.info(f"{ip} --- {requests} / {TOKEN_LIMIT}")
 
-    if remaining >= count:
+    # Allowing localhost to make unlimited requests
+    if remaining >= count or ip == "127.0.0.1":
         await aAddTokens(aconn, ip, count)
         return True
     else:

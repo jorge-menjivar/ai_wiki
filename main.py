@@ -60,7 +60,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 def log_notice(diag):
-    print(f"POSTGRESQL: {diag.severity} - {diag.message_primary}")
+    logger.warn(f"POSTGRESQL: {diag.severity} - {diag.message_primary}")
 
 
 async def getPGConnection():
@@ -117,7 +117,6 @@ async def wiki(request: Request):
 @app.get("/api/wiki/{level}/{title:path}", response_class=HTMLResponse)
 async def generate_page(request: Request, level: int, title: str):
     title = quote(title, safe='')
-    print(f'title is: {title}')
     ip = "all"
     if request.client is not None:
         ip = request.client.host

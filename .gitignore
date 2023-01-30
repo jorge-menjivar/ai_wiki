@@ -9,3 +9,4 @@ __pycache__
 assets/index-*
 manifest.json
 index.html
+transfer.py

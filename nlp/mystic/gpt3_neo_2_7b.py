@@ -20,9 +20,7 @@ def infer(api: PipelineCloud, text: str):
         ],
     )
 
-    print(run.result_preview)
     if run.error_info:
-        print(run.error_info.exception)
         quit()
 
     if run.result_preview is not None:
