@@ -1,7 +1,7 @@
 from database.content import aAddContent
 from psycopg import AsyncConnection
 from nlp.openai.gpt3_davinci import aInfer
-from readuce.utils import removeItalics, removeUnderscores
+from utils.parsing import removeItalics, removeUnderscores
 
 
 async def aOverview(

@@ -4,8 +4,7 @@ from bs4 import BeautifulSoup
 from fastapi import HTTPException
 from readuce.overview import aAddAIOverview
 from readuce.sub_sections import aAddAISubSections
-from readuce.utils import fixSideBarListTitle, fixMathFallbackImage
-from readuce.utils import includeTitle
+from utils import refactoring
 from utils import logging
 from wikipedia import data
 
@@ -43,9 +42,9 @@ async def aGet(session: aiohttp.ClientSession, title: str):
         aAddAIOverview(soup),
     )
 
-    fixSideBarListTitle(soup)
-    fixMathFallbackImage(soup)
-    includeTitle(soup)
+    refactoring.fixSideBarListTitle(soup)
+    refactoring.fixMathFallbackImage(soup)
+    refactoring.includeTitle(soup)
 
     if soup.body is not None:
         page = BeautifulSoup(f"<div>{soup.body}</div>", 'html.parser')
