@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "vite/modulepreload-polyfill";
-// import "/styles/App.scss";
 
 function Root() {
   const [count, setCount] = useState(0);
