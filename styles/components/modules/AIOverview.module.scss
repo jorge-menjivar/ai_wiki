@@ -1,47 +1,27 @@
 .ai_overview {
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: var(--ai-overview-bg-color);
   color: var(--ai-overview-color);
-  display: flex;
-  flex-direction: column;
-  padding: 0 12px;
+  direction: ltr;
+  display: flow-root;
+  font-weight: 600;
   margin: 16px 0;
+  position: relative;
+  padding: 12px;
+  width: auto;
 }
 
-.ai_overview > .overview_disclaimer {
+.overview_disclaimer {
   color: var(--ai-overview-disclaimer-color);
+  display: block;
   font-size: 0.7em;
   margin-bottom: 0;
   text-align: center;
 }
 
-.ai_overview > .overview_content {
-  font-size: 1.1em;
-  margin-top: 2px;
-}
-
-@media (max-width: 720px) {
-  .ai_overview {
-    border-radius: 8px;
-    background-color: var(--ai-overview-bg-color);
-    color: var(--ai-overview-color);
-
-    display: flex;
-    padding: 0 12px;
-    margin: 16px 0;
-    width: 100%;
-  }
-
-  .ai_overview > .overview_disclaimer {
-    color: var(--ai-overview-disclaimer-color);
-    font-size: 0.7em;
-    margin-bottom: 0;
-    text-align: center;
-    width: 100%;
-  }
-
-  .ai_overview > .overview_content {
-    font-size: 1.1em;
-    margin-top: 2px;
-  }
+.overview_content {
+  display: block;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
 }
