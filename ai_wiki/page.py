@@ -2,8 +2,8 @@ import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
-from readuce.overview import aAddAIOverview
-from readuce.sub_sections import aAddAISubSections
+from ai_wiki.overview import aAddAIOverview
+from ai_wiki.sub_sections import aAddAISubSections
 from utils import refactoring
 from utils import logging
 from wikipedia import data

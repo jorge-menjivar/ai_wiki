@@ -13,7 +13,7 @@ from fastapi.templating import Jinja2Templates
 from psycopg.rows import namedtuple_row
 from pydantic import BaseModel
 from urllib.parse import quote
-from readuce import generate, page
+from ai_wiki import generate, page
 from settings import getSettings
 from security.leaky_bucket import makeRequest
 from utils import logging
