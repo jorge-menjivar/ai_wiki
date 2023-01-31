@@ -95,7 +95,7 @@ function BossNav({ children, title, level, onLevelChange }: any) {
         <BossNavRight>
           <BossNavItem>
             <a href="/" className={styles.boss_nav_link}>
-              <div className={styles.boss_nav_title}>Readuce</div>
+              <div className={styles.boss_nav_title}>Wiki</div>
             </a>
           </BossNavItem>
         </BossNavRight>

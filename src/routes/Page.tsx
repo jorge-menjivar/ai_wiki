@@ -7,6 +7,12 @@ import BossNav from "../components/BossNav";
 import { AISubSection } from "../components/AISubSection";
 import { AIOverview } from "../components/AIOverview";
 
+/**
+ * @function Page
+ * Page containing custom wikipedia page, populated with AI components.
+ *
+ * @returns {JSX.Element} - Returns a JSX element containing the page data.
+ */
 function Page() {
   const params = useParams();
   const [data, setData] = useState<string | null>(null);
@@ -16,6 +22,12 @@ function Page() {
 
   const updateLevel = (level: number[]) => setLevel(level[0]);
 
+  /**
+   * fetchContent
+   *
+   * @async
+   * @returns {Promise<void>} - Fetches the content of the page.
+   */
   async function fetchContent() {
     try {
       const res = await fetch(`/api/wiki/${params.title}`);
@@ -53,7 +65,6 @@ function Page() {
       if (attribs.class === "title") {
         title.current = children[0].data;
         title.current = title.current.replaceAll("\n", "");
-        title.current = title.current.replaceAll(" ", "");
         return <></>;
       }
 

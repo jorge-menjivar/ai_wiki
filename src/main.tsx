@@ -4,7 +4,6 @@ import Root from "./routes/App";
 import Page from "./routes/Page";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "/styles/index.scss";
-import BossNav from "./components/BossNav";
 
 const router = createBrowserRouter([
   {
