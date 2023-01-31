@@ -1,0 +1,47 @@
+figure[typeof~="mw:File"] > figcaption,
+figure[typeof~="mw:File/Frameless"] > figcaption {
+  display: none;
+}
+
+figure[typeof~="mw:File/Thumb"] > figcaption,
+figure[typeof~="mw:File/Frame"] > figcaption {
+  border: 1px solid var(--figure-caption-border-color);
+  border-top: 0;
+  background-color: var(--figure-caption-bg-color);
+  font-size: 88.4%;
+  display: table-caption;
+  caption-side: bottom;
+  line-height: 1.4em;
+  word-break: break-word;
+  padding: 0 6px 6px 6px;
+}
+
+.mw-content-ltr figure[typeof~="mw:File/Thumb"] > figcaption,
+.mw-content-ltr figure[typeof~="mw:File/Frame"] > figcaption {
+  text-align: left;
+}
+
+.mw-content-rtl figure[typeof~="mw:File/Thumb"] > figcaption,
+.mw-content-rtl figure[typeof~="mw:File/Frame"] > figcaption {
+  text-align: right;
+}
+
+figure[typeof~="mw:File/Thumb"]:not([typeof~="mw:Error"]) > figcaption:before {
+  content: "";
+  width: 15px;
+  height: 11px;
+}
+
+.mw-content-ltr
+  figure[typeof~="mw:File/Thumb"]:not([typeof~="mw:Error"])
+  > figcaption:before {
+  margin-left: 3px;
+  float: right;
+}
+
+.mw-content-rtl
+  figure[typeof~="mw:File/Thumb"]:not([typeof~="mw:Error"])
+  > figcaption:before {
+  margin-right: 3px;
+  float: left;
+}

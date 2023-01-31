@@ -1,0 +1,42 @@
+.side-box {
+  margin: 4px 0;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  font-size: 88%;
+  line-height: 1.25em;
+  background-color: #f9f9f9;
+}
+.side-box-abovebelow,
+.side-box-text {
+  padding: 0.25em 0.9em;
+}
+.side-box-image {
+  padding: 2px 0 2px 0.9em;
+  text-align: center;
+}
+.side-box-imageright {
+  padding: 2px 0.9em 2px 0;
+  text-align: center;
+}
+@media (min-width: 500px) {
+  .side-box-flex {
+    display: flex;
+    align-items: center;
+  }
+  .side-box-text {
+    flex: 1;
+  }
+}
+@media (min-width: 720px) {
+  .side-box {
+    width: 238px;
+  }
+  .side-box-right {
+    clear: right;
+    float: right;
+    margin-left: 1em;
+  }
+  .side-box-left {
+    margin-right: 1em;
+  }
+}

@@ -1,0 +1,19 @@
+.ai_sub_section {
+  border-radius: 12px;
+  background-color: var(--ai-section-bg-color);
+  color: var(--ai-section-color);
+  direction: ltr;
+  display: flow-root;
+  font-weight: 600;
+  margin: 16px 0;
+  position: relative;
+  padding: 12px;
+  width: auto;
+}
+
+.ai_sub_section_content {
+  display: block;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}

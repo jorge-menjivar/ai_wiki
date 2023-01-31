@@ -1,0 +1,1349 @@
+@use "theme/Colors.scss";
+@use "theme/Fonts.scss";
+@use "components/AmBox.scss";
+@use "components/CatLinks.scss";
+@use "components/Citation.scss";
+@use "components/Code.scss";
+@use "components/Figure.scss";
+@use "components/HatNote.scss";
+@use "components/Headers.scss";
+@use "components/Highlights.scss";
+@use "components/HList.scss";
+@use "components/InfoBox.scss";
+@use "components/InfoBoxSubBox.scss";
+@use "components/Math.scss";
+@use "components/NavBar.scss";
+@use "components/NavBox.scss";
+@use "components/PlainList.scss";
+@use "components/PortalBox.scss";
+@use "components/RefList.scss";
+@use "components/SideBar.scss";
+@use "components/SideBox.scss";
+@use "components/Wikitable.scss";
+
+html {
+  background-color: var(--body-bg-color);
+  color: var(--body-color);
+  font-family: var(--default-font-family);
+  width: 100%;
+}
+
+body {
+  align-items: center;
+  display: block;
+  flex-direction: column;
+  margin: 0;
+  width: 100%;
+}
+
+#root {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  width: 100%;
+}
+
+.content {
+  margin-top: 100px;
+  margin-bottom: 20px;
+  width: 100%;
+  overflow: visible;
+}
+
+@media (min-width: 280px) {
+  .content {
+    width: 90%;
+  }
+}
+
+@media (min-width: 600px) {
+  .content {
+    width: 90%;
+  }
+}
+@media (min-width: 720) {
+  .content {
+    width: 90%;
+  }
+}
+
+@media (min-width: 900px) {
+  .content {
+    width: 90%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .content {
+    width: 90%;
+  }
+}
+
+@media (min-width: 1500px) {
+  .content {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1800px) {
+  .content {
+    width: 70%;
+  }
+}
+
+@media (min-width: 2100px) {
+  .content {
+    width: 65%;
+  }
+}
+
+@media (min-width: 2400px) {
+  .content {
+    width: 60%;
+  }
+}
+
+@media (min-width: 3000px) {
+  .content {
+    width: 40%;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  background: none;
+}
+
+a:not([href]) {
+  cursor: pointer;
+}
+
+a:visited {
+  color: var(--link-color-visited);
+}
+
+a:active {
+  color: var(--link-color-active);
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+a:lang(ar),
+a:lang(kk-arab),
+a:lang(mzn),
+a:lang(ps),
+a:lang(ur) {
+  text-decoration: none;
+}
+
+.overlay {
+  position: relative;
+}
+
+.timeline-wrapper {
+  max-width: 100%;
+  overflow: auto;
+}
+
+td.linenos .normal {
+  color: inherit;
+  background-color: transparent;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+span.linenos {
+  color: inherit;
+  background-color: transparent;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+td.linenos .special {
+  color: #000000;
+  background-color: #ffffc0;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+span.linenos.special {
+  color: #000000;
+  background-color: #ffffc0;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.mw-ref-follow {
+  display: none;
+}
+
+.mw-ref a[data-mw-group]:after {
+  content: "[" attr(data-mw-group) " " counter(mw-Ref, decimal) "]";
+}
+
+.mw-ref a[data-mw-group="decimal"]:after {
+  content: "[" counter(mw-Ref, decimal) "]";
+}
+
+.mw-ref a[data-mw-group="lower-alpha"]:after {
+  content: "[" counter(mw-Ref, lower-alpha) "]";
+}
+
+.mw-ref a[data-mw-group="upper-alpha"]:after {
+  content: "[" counter(mw-Ref, upper-alpha) "]";
+}
+
+.mw-ref a[data-mw-group="lower-greek"]:after {
+  content: "[" counter(mw-Ref, lower-greek) "]";
+}
+
+.mw-ref a[data-mw-group="lower-roman"]:after {
+  content: "[" counter(mw-Ref, lower-roman) "]";
+}
+
+.mw-ref a[data-mw-group="upper-roman"]:after {
+  content: "[" counter(mw-Ref, upper-roman) "]";
+}
+
+.mw-ref a[data-mw-group="error-test"]:after {
+  content: "[" counter(mw-Ref, symbols(cyclic "first" "second" "last!")) "]";
+}
+
+.mw-ref a:after {
+  content: "[" counter(mw-Ref, decimal) "]";
+}
+
+x-thereisnoelementwiththisname:after,
+span.mw-reflink-text {
+  display: none;
+}
+
+ol.mw-references {
+  counter-reset: mw-references list-item 0;
+}
+
+ol.mw-references > li {
+  counter-increment: mw-references;
+}
+
+ol[data-mw-group="lower-alpha"].mw-references > li {
+  list-style-type: lower-alpha;
+}
+
+ol[data-mw-group="upper-alpha"].mw-references > li {
+  list-style-type: upper-alpha;
+}
+
+[rel~="mw:referencedBy"]:before {
+  content: "↑ ";
+}
+
+span[rel~="mw:referencedBy"] {
+  counter-reset: mw-ref-linkback 0;
+}
+
+span[rel~="mw:referencedBy"] a:before {
+  counter-increment: mw-ref-linkback;
+  content: counter(mw-references, decimal) "." counter(mw-ref-linkback, decimal);
+  line-height: 1;
+  vertical-align: super;
+  font-size: smaller;
+}
+
+span[rel~="mw:referencedBy"] a:after {
+  content: " ";
+  line-height: 1;
+}
+
+span[rel~="mw:referencedBy"] a:last-child:after {
+  content: "";
+}
+
+x-thereisnoelementwiththisname[rel="mw:referencedBy"]:before,
+span.mw-linkback-text {
+  display: none;
+}
+
+.mw-ext-cite-warning {
+  font-size: larger;
+  color: #ac6600;
+}
+
+span[rel~="mw:referencedBy"] a:before {
+  content: counter(mw-ref-linkback, lower-alpha);
+}
+
+.mw-cite-backlink,
+.cite-accessibility-label {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mw-references-columns {
+  -webkit-column-width: 30em;
+  -moz-column-width: 30em;
+  column-width: 30em;
+  margin-top: 0.3em;
+}
+
+.mw-parser-output .mw-references-columns .references {
+  margin-top: 0;
+}
+
+.mw-references-columns li {
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid-column;
+}
+
+ol.references {
+  counter-reset: mw-ref-extends-parent list-item;
+}
+
+ol.references > li {
+  counter-increment: mw-ref-extends-parent;
+  counter-reset: mw-ref-extends-child;
+}
+
+ol.references .mw-extended-references {
+  list-style: none;
+  margin-left: 2em;
+}
+
+.mw-extended-references > li:before {
+  counter-increment: mw-ref-extends-child;
+  content: counter(mw-ref-extends-parent, decimal) "."
+    counter(mw-ref-extends-child, decimal) ". ";
+}
+
+sup.reference {
+  unicode-bidi: -moz-isolate;
+  unicode-bidi: -webkit-isolate;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  font-weight: normal;
+  font-style: normal;
+}
+
+ol.references li:target,
+sup.reference:target {
+  background-color: #eaf3ff;
+}
+
+.mw-ext-cite-error {
+  font-weight: bold;
+  unicode-bidi: embed;
+}
+
+.mw-ext-cite-error code {
+  background-color: transparent;
+  color: inherit;
+  padding: 1px 2px;
+}
+
+.mw-cite-dir-ltr .reference-text {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+.mw-cite-dir-rtl .reference-text {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+@media print {
+  .mw-cite-backlink {
+    display: none;
+  }
+}
+
+.mw-parser-output {
+  counter-reset: mw-numbered-ext-link;
+}
+
+.mw-parser-output a[rel~="mw:ExtLink"]:empty:after {
+  content: "[" counter(mw-numbered-ext-link) "]";
+  counter-increment: mw-numbered-ext-link;
+}
+
+.mw-valign-middle > span:first-child > *:first-child,
+.mw-valign-middle > a:first-child > *:first-child {
+  vertical-align: middle;
+}
+
+.mw-valign-baseline > span:first-child > *:first-child,
+.mw-valign-baseline > a:first-child > *:first-child {
+  vertical-align: baseline;
+}
+
+.mw-valign-sub > span:first-child > *:first-child,
+.mw-valign-sub > a:first-child > *:first-child {
+  vertical-align: sub;
+}
+
+.mw-valign-super > span:first-child > *:first-child,
+.mw-valign-super > a:first-child > *:first-child {
+  vertical-align: super;
+}
+
+.mw-valign-top > span:first-child > *:first-child,
+.mw-valign-top > a:first-child > *:first-child {
+  vertical-align: top;
+}
+
+.mw-valign-text-top > span:first-child > *:first-child,
+.mw-valign-text-top > a:first-child > *:first-child {
+  vertical-align: text-top;
+}
+
+.mw-valign-bottom > span:first-child > *:first-child,
+.mw-valign-bottom > a:first-child > *:first-child {
+  vertical-align: bottom;
+}
+
+.mw-valign-text-bottom > span:first-child > *:first-child,
+.mw-valign-text-bottom > a:first-child > *:first-child {
+  vertical-align: text-bottom;
+}
+
+.mw-gallery-traditional .gallerybox > .thumb:before {
+  content: "";
+  vertical-align: middle;
+  display: inline-block;
+  height: 100%;
+}
+
+.mw-gallery-traditional .gallerybox > .thumb > * {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0ms !important;
+  }
+}
+
+.firstHeading:before {
+  content: url(/static/images/mobile/copyright/wikipedia-wordmark-en.svg);
+  display: block;
+  height: 18px;
+  left: -9999px;
+  line-height: 0;
+  margin-bottom: 20px;
+  position: absolute;
+  width: 120px;
+}
+
+div.tright,
+div.floatright,
+table.floatright {
+  clear: right;
+  float: right;
+}
+
+div.tleft,
+div.floatleft,
+table.floatleft {
+  float: left;
+  clear: left;
+}
+
+div.floatright,
+table.floatright {
+  margin: 0 0 0.5em 0.5em;
+}
+
+div.floatleft,
+table.floatleft {
+  margin: 0 0.5em 0.5em 0;
+}
+
+div.thumb {
+  width: auto;
+  background-color: transparent;
+  margin-bottom: 0.5em;
+}
+
+div.tleft {
+  margin: 0.5em 1.4em 1.3em 0;
+}
+
+div.tright {
+  margin: 0.5em 0 1.3em 1.4em;
+}
+
+.thumbcaption {
+  text-align: left;
+  line-height: 1.4em;
+  padding: 3px;
+}
+
+div.thumbinner {
+  padding: 3px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.mw-message-box {
+  color: #000;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  border: 1px solid;
+  padding: 12px 24px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  background-color: #eaecf0;
+  border-color: #a2a9b1;
+}
+
+.mw-message-box > :only-child {
+  margin: 0;
+}
+
+.mw-message-box .mw-logevent-loglines li {
+  font-size: 90%;
+}
+
+.mw-message-box-error {
+  background-color: #fee7e6;
+  border-color: #d33;
+}
+
+.mw-message-box-warning {
+  background-color: #fef6e7;
+  border-color: #fc3;
+}
+
+.mw-message-box-success {
+  background-color: #d5fdf4;
+  border-color: #14866d;
+}
+
+.toctogglecheckbox:checked ~ ul {
+  display: none;
+}
+
+.mw-wiki-logo {
+  background-image: url(/static/images/project-logos/enwiki.png);
+}
+
+@media screen {
+  div.thumbinner {
+    border: 1px solid #c8ccd1;
+    background-color: #f8f9fa;
+    font-size: 94%;
+  }
+
+  .thumbimage {
+    background-color: #ffffff;
+    border: 1px solid #c8ccd1;
+  }
+
+  .thumbcaption {
+    border: 0;
+    font-size: 94%;
+  }
+
+  .thumbborder {
+    border: 1px solid #eaecf0;
+  }
+
+  .magnify {
+    float: right;
+    margin-left: 3px;
+  }
+
+  .magnify a {
+    display: block;
+    text-indent: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 15px;
+    height: 11px;
+    background-image: url(/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.svg?8330e);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .mw-content-ltr .thumbcaption {
+    text-align: left;
+  }
+
+  .mw-content-rtl .thumbcaption {
+    text-align: right;
+  }
+
+  .mw-content-ltr .magnify {
+    margin-left: 3px;
+    margin-right: 0;
+    float: right;
+  }
+
+  .mw-content-ltr .magnify a {
+    background-image: url(/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.svg?8330e);
+  }
+
+  .mw-content-rtl .magnify {
+    margin-left: 0;
+    margin-right: 3px;
+    float: left;
+  }
+
+  .mw-content-rtl .magnify a {
+    background-image: url(/w/resources/src/mediawiki.skinning/images/magnify-clip-rtl.svg?38fd5);
+  }
+
+  .mw-body-content:after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+
+  .mw-body-content a.external.free {
+    word-wrap: break-word;
+  }
+
+  .mw-body-content .error {
+    font-size: larger;
+    color: #d33;
+  }
+
+  .rtl .mw-parser-output a.external.free,
+  .rtl .mw-parser-output a.external.autonumber {
+    direction: ltr;
+    unicode-bidi: embed;
+  }
+
+  .mw-hide-empty-elt .mw-parser-output:not(.mw-show-empty-elt) .mw-empty-elt {
+    display: none;
+  }
+
+  .emptyPortlet {
+    display: none;
+  }
+
+  .printfooter,
+  .client-nojs #t-print {
+    display: none;
+  }
+
+  .mw-editsection {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .mw-editsection,
+  .mw-editsection-like {
+    font-size: small;
+    font-weight: normal;
+    margin-left: 1em;
+    vertical-align: baseline;
+    line-height: 0;
+  }
+
+  .mw-content-ltr .mw-editsection,
+  .mw-content-rtl .mw-content-ltr .mw-editsection,
+  .mw-content-ltr .mw-editsection-like,
+  .mw-content-rtl .mw-content-ltr .mw-editsection-like {
+    margin-left: 1em;
+    margin-right: 0;
+  }
+
+  .mw-content-rtl .mw-editsection,
+  .mw-content-ltr .mw-content-rtl .mw-editsection,
+  .mw-content-rtl .mw-editsection-like,
+  .mw-content-ltr .mw-content-rtl .mw-editsection-like {
+    margin-right: 1em;
+    margin-left: 0;
+  }
+
+  .mw-indicators {
+    float: right;
+  }
+
+  #siteNotice {
+    position: relative;
+    text-align: center;
+    margin: 0;
+  }
+
+  #localNotice {
+    margin-bottom: 0.9em;
+  }
+
+  #siteSub {
+    display: none;
+  }
+
+  .mw-content-subtitle,
+  #contentSub,
+  #contentSub2 {
+    font-size: 84%;
+    line-height: 1.2em;
+    margin: 0 0 1.4em 1em;
+    color: #54595d;
+    width: auto;
+  }
+
+  span.subpages {
+    display: block;
+  }
+
+  .usermessage {
+    background-color: #fef6e7;
+    border: 1px solid #fc3;
+    color: #000;
+    font-weight: bold;
+    margin: 2em 0 1em;
+    padding: 0.5em 1em;
+    vertical-align: middle;
+  }
+
+  img {
+    border: 0;
+    vertical-align: middle;
+  }
+
+  hr {
+    height: 1px;
+    background-color: #a2a9b1;
+    border: 0;
+    margin: 0.2em 0;
+  }
+
+  p {
+    margin: 0.4em 0 0.5em 0;
+  }
+
+  p img {
+    margin: 0;
+  }
+
+  ul {
+    margin: 0.3em 0 0 1.6em;
+    padding: 0;
+  }
+
+  ol {
+    margin: 0.3em 0 0 3.2em;
+    padding: 0;
+    list-style-image: none;
+  }
+
+  li {
+    margin-bottom: 0.1em;
+  }
+
+  dt {
+    font-weight: bold;
+    margin-bottom: 0.1em;
+  }
+
+  dl {
+    margin-top: 0.2em;
+    margin-bottom: 0.5em;
+  }
+
+  dd {
+    margin-left: 1.6em;
+    margin-bottom: 0.1em;
+  }
+
+  table {
+    font-size: 100%;
+  }
+
+  fieldset {
+    border: 1px solid #2a4b8d;
+    margin: 1em 0 1em 0;
+    padding: 0 1em 1em;
+  }
+
+  legend {
+    padding: 0.5em;
+  }
+
+  form {
+    border: 0;
+    margin: 0;
+  }
+
+  textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #c8ccd1;
+    padding: 0.1em;
+  }
+
+  .center {
+    width: 100%;
+    text-align: center;
+  }
+
+  *.center * {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .small {
+    font-size: 94%;
+  }
+
+  table.small {
+    font-size: 100%;
+  }
+
+  .toc,
+  .toccolours {
+    border: 1px solid #a2a9b1;
+    background-color: #f8f9fa;
+    padding: 5px;
+    font-size: 95%;
+  }
+
+  .toc {
+    display: table;
+    padding: 7px;
+  }
+
+  .toc .toctitle {
+    text-align: center;
+  }
+
+  .toc ul {
+    list-style: none;
+    margin: 0.3em 0;
+    padding: 0;
+    text-align: left;
+  }
+
+  .toc ul ul {
+    margin: 0 0 0 2em;
+  }
+
+  table.toc {
+    border-collapse: collapse;
+  }
+
+  table.toc td {
+    padding: 0;
+  }
+
+  .tocnumber,
+  .toctext {
+    display: table-cell;
+    text-decoration: inherit;
+  }
+
+  .tocnumber {
+    color: #202122;
+    padding-left: 0;
+    padding-right: 0.5em;
+  }
+
+  .mw-content-ltr .tocnumber {
+    padding-left: 0;
+    padding-right: 0.5em;
+  }
+
+  .mw-content-rtl .tocnumber {
+    padding-left: 0.5em;
+    padding-right: 0;
+  }
+
+  .toctogglecheckbox {
+    display: inline !important;
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  .toctogglespan {
+    font-size: 94%;
+  }
+
+  .toctogglespan:before {
+    content: " [";
+  }
+
+  .toctogglespan:after {
+    content: "]";
+  }
+
+  .toctogglelabel {
+    cursor: pointer;
+    color: #0645ad;
+  }
+
+  .toctogglelabel:hover {
+    text-decoration: underline;
+  }
+
+  .toctogglecheckbox:focus + .toctitle .toctogglelabel {
+    text-decoration: underline;
+    outline: dotted 1px;
+    outline: auto -webkit-focus-ring-color;
+  }
+
+  .toctogglecheckbox:checked + .toctitle .toctogglelabel:after {
+    content: "show";
+  }
+
+  .toctogglecheckbox:not(:checked) + .toctitle .toctogglelabel:after {
+    content: "hide";
+  }
+
+  .toc .toctitle {
+    direction: ltr;
+  }
+
+  .mw-content-ltr .toc ul,
+  .mw-content-rtl .mw-content-ltr .toc ul {
+    text-align: left;
+  }
+
+  .mw-content-rtl .toc ul,
+  .mw-content-ltr .mw-content-rtl .toc ul {
+    text-align: right;
+  }
+
+  .mw-content-ltr .toc ul ul,
+  .mw-content-rtl .mw-content-ltr .toc ul ul {
+    margin: 0 0 0 2em;
+  }
+
+  .mw-content-rtl .toc ul ul,
+  .mw-content-ltr .mw-content-rtl .toc ul ul {
+    margin: 0 2em 0 0;
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5),
+  (min-resolution: 1.5dppx),
+  (min-resolution: 144dpi) {
+  .mw-wiki-logo {
+    background-image: url(/static/images/project-logos/enwiki-1.5x.png);
+    background-size: 135px auto;
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 2dppx),
+  (min-resolution: 192dpi) {
+  .mw-wiki-logo {
+    background-image: url(/static/images/project-logos/enwiki-2x.png);
+    background-size: 135px auto;
+  }
+}
+
+cite,
+dfn {
+  font-style: inherit;
+}
+
+q {
+  quotes: '"' '"' "'" "'";
+}
+
+blockquote {
+  overflow: hidden;
+  margin: 1em 0;
+  padding: 0 40px;
+}
+
+small {
+  font-size: 85%;
+}
+
+.mw-body-content sub,
+.mw-body-content sup {
+  font-size: 80%;
+}
+
+.ns-talk .mw-body-content dd {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+.client-js .mw-special-Watchlist #watchlist-message,
+.client-js
+  .collapsible:not(.mw-made-collapsible).collapsed
+  > tbody
+  > tr:not(:first-child),
+.client-js
+  .outercollapse
+  .innercollapse.mw-collapsible:not(.mw-made-collapsible)
+  > p,
+.client-js
+  .outercollapse
+  .innercollapse.mw-collapsible:not(.mw-made-collapsible)
+  > table,
+.client-js
+  .outercollapse
+  .innercollapse.mw-collapsible:not(.mw-made-collapsible)
+  > thead
+  + tbody,
+.client-js
+  .outercollapse
+  .innercollapse.mw-collapsible:not(.mw-made-collapsible)
+  tr:not(:first-child),
+.client-js
+  .outercollapse
+  .innercollapse.mw-collapsible:not(.mw-made-collapsible)
+  .mw-collapsible-content,
+#editpage-specialchars {
+  display: none;
+}
+
+ol.references {
+  font-size: 90%;
+  margin-bottom: 0.5em;
+}
+
+.references span[rel~="mw:referencedBy"] > a:before {
+  content: counter(mw-ref-linkback, lower-alpha);
+}
+
+.mw-parser-output .mw-collapsible-toggle:not(.mw-ui-button) {
+  font-weight: normal;
+  padding-right: 0.2em;
+  padding-left: 0.2em;
+}
+
+.mw-collapsible-leftside-toggle .mw-collapsible-toggle {
+  float: left;
+}
+
+.wikitable td ul,
+.wikitable td ol,
+.wikitable td dl {
+  text-align: left;
+}
+
+.mw-parser-output table.mw-hiero-table td {
+  vertical-align: middle;
+}
+
+.mw-parser-output a[href$=".pdf"].external,
+.mw-parser-output a[href*=".pdf?"].external,
+.mw-parser-output a[href*=".pdf#"].external,
+.mw-parser-output a[href$=".PDF"].external,
+.mw-parser-output a[href*=".PDF?"].external,
+.mw-parser-output a[href*=".PDF#"].external {
+  background: url(//upload.wikimedia.org/wikipedia/commons/4/4d/Icon_pdf_file.png)
+    no-repeat right;
+  padding: 8px 18px 8px 0;
+}
+
+div.mw-warning-with-logexcerpt,
+div.mw-lag-warn-high,
+div.mw-cascadeprotectedwarning,
+div#mw-protect-cascadeon,
+div.titleblacklist-warning {
+  clear: both;
+  margin: 0.2em 0;
+  border: 1px solid #bb7070;
+  background-color: #ffdbdb;
+  padding: 0.25em 0.9em;
+  box-sizing: border-box;
+}
+
+.mw-contributions-blocked-notice-partial .mw-warning-with-logexcerpt {
+  border-color: #fc3;
+  background-color: #fef6e7;
+}
+
+#wpUploadDescription {
+  height: 13em;
+}
+
+.thumbinner {
+  min-width: 100px;
+}
+
+#mw-subcategories,
+#mw-pages,
+#mw-category-media,
+#filehistory,
+#wikiPreview,
+#wikiDiff {
+  clear: both;
+}
+
+.mw-tag-markers {
+  font-style: italic;
+  font-size: 90%;
+}
+
+.mw-tag-other-edits {
+  font-size: 95%;
+}
+
+.checkuser-show,
+.sysop-show,
+.abusefilter-show,
+.abusefilter-helper-show,
+.patroller-show,
+.templateeditor-show,
+.extendedmover-show,
+.extendedconfirmed-show,
+.autoconfirmed-show,
+.user-show {
+  display: none;
+}
+
+.ve-ui-mwNoticesPopupTool-item .editnotice-redlink,
+.ve-ui-mwNoticesPopupTool-item .mbox-image,
+.ve-ui-mwNoticesPopupTool-item .mbox-imageright {
+  display: none !important;
+}
+
+ul.permissions-errors {
+  margin: 0;
+}
+
+ul.permissions-errors > li {
+  list-style: none;
+}
+
+span.mwe-math-mathml-inline {
+  font-size: 118%;
+}
+
+@media screen {
+  #content .gallerybox div.thumb {
+    background-color: #f8f9fa;
+  }
+
+  .gallerybox .thumb img {
+    background: #fff
+      url(//upload.wikimedia.org/wikipedia/commons/5/5d/Checker-16x16.png)
+      repeat;
+  }
+
+  .ns-0 .gallerybox .thumb img,
+  .ns-2 .gallerybox .thumb img,
+  .ns-100 .gallerybox .thumb img {
+    background-image: none;
+  }
+
+  #siteSub {
+    display: block;
+  }
+}
+
+.flaggedrevs_draft_synced,
+.flaggedrevs_stable_synced,
+#t-upload,
+.mw-special-Book #coll-downloadbox {
+  display: none;
+}
+
+.hlist dl,
+.hlist ol,
+.hlist ul {
+  margin: 0;
+  padding: 0;
+}
+
+.hlist dd,
+.hlist dt,
+.hlist li {
+  margin: 0;
+  display: inline;
+}
+
+.hlist.inline,
+.hlist.inline dl,
+.hlist.inline ol,
+.hlist.inline ul,
+.hlist dl dl,
+.hlist dl ol,
+.hlist dl ul,
+.hlist ol dl,
+.hlist ol ol,
+.hlist ol ul,
+.hlist ul dl,
+.hlist ul ol,
+.hlist ul ul {
+  display: inline;
+}
+
+.hlist .mw-empty-li {
+  display: none;
+}
+
+.hlist dt:after {
+  content: ":";
+}
+
+.hlist dd:after,
+.hlist li:after {
+  content: " · ";
+  font-weight: bold;
+}
+
+.hlist dd:last-child:after,
+.hlist dt:last-child:after,
+.hlist li:last-child:after {
+  content: none;
+}
+
+.hlist dd dd:first-child:before,
+.hlist dd dt:first-child:before,
+.hlist dd li:first-child:before,
+.hlist dt dd:first-child:before,
+.hlist dt dt:first-child:before,
+.hlist dt li:first-child:before,
+.hlist li dd:first-child:before,
+.hlist li dt:first-child:before,
+.hlist li li:first-child:before {
+  content: " (";
+  font-weight: normal;
+}
+
+.hlist dd dd:last-child:after,
+.hlist dd dt:last-child:after,
+.hlist dd li:last-child:after,
+.hlist dt dd:last-child:after,
+.hlist dt dt:last-child:after,
+.hlist dt li:last-child:after,
+.hlist li dd:last-child:after,
+.hlist li dt:last-child:after,
+.hlist li li:last-child:after {
+  content: ")";
+  font-weight: normal;
+}
+
+.hlist ol {
+  counter-reset: listitem;
+}
+
+.hlist ol > li {
+  counter-increment: listitem;
+}
+
+.hlist ol > li:before {
+  content: " " counter(listitem) "\a0";
+}
+
+.hlist dd ol > li:first-child:before,
+.hlist dt ol > li:first-child:before,
+.hlist li ol > li:first-child:before {
+  content: " (" counter(listitem) "\a0";
+}
+
+.wikitable.plainrowheaders th[scope="row"],
+.wikitable.plainrowheaders th[scope="rowgroup"] {
+  font-weight: normal;
+  text-align: left;
+}
+
+span.texhtml {
+  font-family: "Nimbus Roman No9 L", "Times New Roman", Times, serif;
+  font-size: 118%;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-font-feature-settings: "lnum", "tnum", "kern" 0;
+  font-feature-settings: "lnum", "tnum", "kern" 0;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-kerning: none;
+}
+
+span.texhtml span.texhtml {
+  font-size: 100%;
+}
+
+@media screen {
+  .nochecker .gallerybox .thumb img {
+    background-image: none;
+  }
+}
+
+.page-Main_Page #deleteconfirm,
+.page-Main_Page #t-cite,
+.page-Main_Page #footer-info-lastmod,
+.action-view.page-Main_Page #siteSub,
+.action-view.page-Main_Page #contentSub,
+.action-view.page-Main_Page #contentSub2 {
+  display: none !important;
+}
+
+#coordinates {
+  position: absolute;
+  top: 0;
+  right: 0;
+  float: right;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5em;
+  text-align: right;
+  text-indent: 0;
+  font-size: 85%;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.ve-ce-surface-enabled #coordinates {
+  margin-right: 2em;
+  margin-top: -1em;
+}
+
+.mw-indicator #coordinates {
+  position: absolute;
+  top: 3.5em;
+  right: 0;
+  line-height: 1.6;
+  text-align: right;
+  font-size: 92%;
+  white-space: nowrap;
+}
+
+body.skin-vector-legacy div.flaggedrevs_short {
+  position: absolute;
+  top: -3em;
+  right: 100px;
+  z-index: 1;
+}
+
+body.skin-vector-legacy #siteSub {
+  font-size: 92%;
+}
+
+body.skin-vector-legacy .mw-indicators {
+  padding-top: 0.4em;
+}
+
+.mw-body-content blockquote {
+  border-left: none;
+}

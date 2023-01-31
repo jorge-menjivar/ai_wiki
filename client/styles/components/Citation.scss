@@ -1,0 +1,69 @@
+cite.citation {
+  font-style: inherit;
+  word-wrap: break-word;
+}
+.citation q {
+  quotes: '"' '"' "'" "'";
+}
+.citation:target {
+  background-color: rgba(0, 127, 255, 0.133);
+}
+.id-lock-free a,
+.citation .cs1-lock-free a {
+  background: linear-gradient(transparent, transparent),
+    url("//upload.wikimedia.org/wikipedia/commons/6/65/Lock-green.svg") right
+      0.1em center/9px no-repeat;
+  padding-right: 12px;
+}
+.id-lock-limited a,
+.id-lock-registration a,
+.citation .cs1-lock-limited a,
+.citation .cs1-lock-registration a {
+  background: linear-gradient(transparent, transparent),
+    url("//upload.wikimedia.org/wikipedia/commons/d/d6/Lock-gray-alt-2.svg")
+      right 0.1em center/9px no-repeat;
+  padding-right: 12px;
+}
+.id-lock-subscription a,
+.citation .cs1-lock-subscription a {
+  background: linear-gradient(transparent, transparent),
+    url("//upload.wikimedia.org/wikipedia/commons/a/aa/Lock-red-alt-2.svg")
+      right 0.1em center/9px no-repeat;
+  padding-right: 12px;
+}
+.cs1-ws-icon a {
+  background: linear-gradient(transparent, transparent),
+    url("//upload.wikimedia.org/wikipedia/commons/4/4c/Wikisource-logo.svg")
+      right 0.1em center/12px no-repeat;
+  padding-right: 12px;
+}
+.cs1-code {
+  color: inherit;
+  background: inherit;
+  border: none;
+  padding: inherit;
+}
+.cs1-hidden-error {
+  display: none;
+  color: #d33;
+}
+.cs1-visible-error {
+  color: #d33;
+}
+.cs1-maint {
+  display: none;
+  color: #3a3;
+  margin-left: 0.3em;
+}
+.cs1-format {
+  font-size: 95%;
+}
+.cs1-kern-left {
+  padding-left: 0.2em;
+}
+.cs1-kern-right {
+  padding-right: 0.2em;
+}
+.citation .mw-selflink {
+  font-weight: inherit;
+}

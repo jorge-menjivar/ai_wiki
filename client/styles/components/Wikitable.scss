@@ -1,0 +1,52 @@
+@media screen {
+  .wikitable {
+    background-color: var(--wikitable-bg-color);
+    color: var(--wikitable-color);
+    margin: 1em 0;
+    border: 1px solid var(--wikitable-border-color);
+    border-collapse: collapse;
+  }
+  .wikitable > tr > th,
+  .wikitable > tr > td,
+  .wikitable > * > tr > th,
+  .wikitable > * > tr > td {
+    border: 1px solid var(--wikitable-border-color);
+    padding: 0.2em 0.4em;
+  }
+  .wikitable > tr > th,
+  .wikitable > * > tr > th {
+    background-color: var(--wikitable-top-bg-color);
+    text-align: center;
+  }
+  .wikitable > caption {
+    font-weight: bold;
+  }
+}
+
+@media print {
+  .wikitable {
+    background: #fff;
+    margin: 1em 0;
+    border: 1pt solid #aaa;
+    border-collapse: collapse;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  .wikitable > caption {
+    padding: 5px;
+    font-size: 10pt;
+  }
+  .wikitable > tr > th,
+  .wikitable > tr > td,
+  .wikitable > * > tr > th,
+  .wikitable > * > tr > td {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1pt solid #aaa;
+    padding: 0.4em 0.6em;
+  }
+  .wikitable > tr > th,
+  .wikitable > * > tr > th {
+    text-align: center;
+  }
+}

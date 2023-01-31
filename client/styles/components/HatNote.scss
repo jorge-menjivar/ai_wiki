@@ -1,0 +1,13 @@
+.hatnote {
+  font-style: italic;
+}
+div.hatnote {
+  padding-left: 1.6em;
+  margin-bottom: 0.5em;
+}
+.hatnote i {
+  font-style: normal;
+}
+.hatnote + link + .hatnote {
+  margin-top: -0.5em;
+}

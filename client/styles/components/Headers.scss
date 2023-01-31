@@ -1,0 +1,77 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  page-break-after: avoid;
+  page-break-before: avoid;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--header-color);
+  margin: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.17em;
+  overflow: hidden;
+}
+
+h1,
+h2 {
+  margin-bottom: 0.6em;
+  border-bottom: 1px solid #a2a9b1;
+}
+
+h3,
+h4,
+h5 {
+  margin-bottom: 0.3em;
+}
+
+h1 {
+  font-size: 188%;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 150%;
+  font-weight: normal;
+}
+
+h3 {
+  font-size: 128%;
+}
+
+h4 {
+  font-size: 116%;
+}
+
+h5 {
+  font-size: 108%;
+}
+
+h6 {
+  font-size: 100%;
+}
+
+.toc h2 {
+  display: inline;
+  border: 0;
+  padding: 0;
+  font-size: 100%;
+  font-weight: bold;
+}
+
+.mw-message-box h2 {
+  color: inherit;
+  display: block;
+  border: 0;
+  font-size: 1em;
+  font-weight: bold;
+}

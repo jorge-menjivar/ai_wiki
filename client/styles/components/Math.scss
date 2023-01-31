@@ -1,0 +1,22 @@
+.mwe-math-fallback-image-inline {
+  @media (prefers-color-scheme: dark) {
+    filter: invert(100%);
+  }
+  max-width: 100%;
+}
+
+.mwe-math-fallback-image-display,
+.mwe-math-mathml-display {
+  @media (min-width: 720px) {
+    margin-left: 1.6em !important;
+  }
+  @media (prefers-color-scheme: dark) {
+    filter: invert(100%);
+  }
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+
+.mwe-math-mathml-display math {
+  display: inline;
+}
