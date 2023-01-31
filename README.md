@@ -32,6 +32,8 @@ python -m main
 
 2. Run `npm install` to install the required packages
 
+   - Note: Tested with Node 18.7 and npm 9.2.0.
+
 3. Run `npm run dev` to start the client
 
 That's it! The app should now be running on localhost, but there is not a working home page yet, so go to the direct link for an article to get started. For example:
