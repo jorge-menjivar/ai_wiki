@@ -13,9 +13,17 @@ pip install -r /server/requirements.txt
 ```
 
 4. Create a `.env` file. Look at `sample.env`, it has all the required variable names.
+
    - Place your OpenAI key there. You can get one from here: [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
    - Place your PostgreSQL authentication information there.
      - Use `127.0.0.1` instead of `localhost` to prevent issues, if running PostgreSQL locally.
+
+5. Start the server
+
+```
+cd server
+python -m main
+```
 
 ## Running the app
 
