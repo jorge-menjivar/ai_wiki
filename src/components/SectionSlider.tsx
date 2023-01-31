@@ -1,6 +1,14 @@
 import * as Slider from "@radix-ui/react-slider";
 import styles from "/styles/components/modules/SectionSlider.module.scss";
 
+/**
+ *
+ * @function SectionSlider
+ * @param {Object} value
+ * @param {function} onValueChange
+ *
+ * @returns {JSX.Element} Returns a slider to choose a level from 1-5
+ */
 export const SectionSlider = ({ value, onValueChange }: any) => {
   return (
     <Slider.Root

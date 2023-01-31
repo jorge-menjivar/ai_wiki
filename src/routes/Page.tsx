@@ -18,7 +18,7 @@ function Page() {
 
   async function fetchContent() {
     try {
-      const res = await fetch(`/api/wiki/${level}/${params.title}`);
+      const res = await fetch(`/api/wiki/${params.title}`);
       const data = await res.text();
       setData(data);
       // console.log(data);
@@ -58,7 +58,11 @@ function Page() {
       }
 
       if (attribs.class === "ai_overview") {
-        return <AIOverview id={attribs.id}>{children}</AIOverview>;
+        return (
+          <AIOverview page_level={level} title={params.title}>
+            {domToReact(children, options)}
+          </AIOverview>
+        );
       }
 
       if (attribs.class === "ai_sub_section") {

@@ -31,13 +31,28 @@ const BossNavItem = ({ children }: any) => {
   return <div className={styles.boss_nav_item}>{children}</div>;
 };
 
+/**
+ *
+ * @function BossNav
+ * @param {any} children
+ * @param {string} title
+ * @param {Number} level
+ * @param {Function} onLevelChange
+ * @description This is a component to handle the boss navigation bar.
+ * @returns {JSX.Element} Returns a JSX.Element
+ */
 function BossNav({ children, title, level, onLevelChange }: any) {
   const prevLoc = useRef(0);
   const [show, setShow] = useState(true);
 
+  /**
+   *
+   * @function handleScroll
+   * @description Handles the scroll event for devices with width less than 720px.
+   */
   const handleScroll = () => {
-    // Only hiding in devices with width less than 900px.
-    if (window.innerWidth < 900) {
+    // Only hiding in devices with width less than 720px.
+    if (window.innerWidth < 720) {
       const currLoc = window.pageYOffset;
       if (Math.abs(prevLoc.current - currLoc) > 60 || currLoc < 10) {
         setShow(prevLoc.current > currLoc || currLoc < 10);
@@ -48,6 +63,12 @@ function BossNav({ children, title, level, onLevelChange }: any) {
     }
   };
 
+  /**
+   * This function debounces the scroll event.
+   *
+   * @function debouncedScroll
+   * @returns {Function} The function that handles the debounced scroll event.
+   */
   const debouncedScroll = useMemo(() => {
     return debounce(handleScroll, 15);
   }, []);

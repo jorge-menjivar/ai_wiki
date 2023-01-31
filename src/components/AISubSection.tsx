@@ -2,6 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { SectionDropdown } from "./SectionDropdown";
 import styles from "/styles/components/modules/AISubSection.module.scss";
 
+/**
+ * AISubSection Component
+ * @component
+ *
+ * @param {number} id - The id of the content
+ * @param {string} title - The title of the content
+ * @param {string} children - The content of the section
+ * @param {number} page_level - The page level
+ *
+ * @returns {JSX.Element} Returns a JSX.Element
+ */
 export const AISubSection = ({ id, title, children, page_level }: any) => {
   const fetched = useRef(0);
   const [level, setLevel] = useState<number>(page_level);
@@ -21,6 +32,16 @@ export const AISubSection = ({ id, title, children, page_level }: any) => {
     setLevel(page_level);
   }, [page_level]);
 
+  /**
+   * @async
+   * @function fetchContent
+   * @description A function that fetches content from the API
+   *
+   * @param {number} level - The level of the content
+   * @param {string} title - The title of the content
+   *
+   * @returns {Promise<Object>} The response from the API
+   */
   async function fetchContent() {
     const body = {
       level: level,
@@ -28,7 +49,7 @@ export const AISubSection = ({ id, title, children, page_level }: any) => {
       content_id: id,
     };
     console.log(JSON.stringify(body));
-    await fetch("/api/wiki/content", {
+    await fetch("/api/resources/content", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,6 +67,10 @@ export const AISubSection = ({ id, title, children, page_level }: any) => {
     });
   }
 
+  /**
+   * Updates the level
+   * @param {number[]} level - An array of numbers representing the level
+   */
   const updateLevel = (level: number[]) => {
     console.log("changing level");
     setLevel(level[0]);

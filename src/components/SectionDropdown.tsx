@@ -2,6 +2,14 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "/styles/components/modules/SectionDropdown.module.scss";
 import { SectionSlider } from "./SectionSlider";
 
+/**
+ * @function SectionDropdown
+ * @description Renders a dropdown menu with a section slider, a model label, and a timestamp label
+ * @param {any} value - The current value of the slider
+ * @param {any} model - The model of the slider
+ * @param {any} timestamp - The timestamp of the slider
+ * @param {any} onValueChange - The function to call when the value changes
+ */
 export const SectionDropdown = ({
   value,
   model,

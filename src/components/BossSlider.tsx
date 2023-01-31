@@ -1,7 +1,14 @@
 import * as Slider from "@radix-ui/react-slider";
-import { useState } from "react";
 import styles from "/styles/components/modules/BossSlider.module.scss";
 
+/**
+ *
+ * @function BossSlider
+ * @param {Object} value
+ * @param {function} onValueChange
+ *
+ * @returns {JSX.Element} Returns a slider to choose a level from 1-5
+ */
 export const BossSlider = ({ value, onValueChange }: any) => {
   return (
     <div className={styles.slider_container}>
