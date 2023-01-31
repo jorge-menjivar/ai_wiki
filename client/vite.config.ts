@@ -9,7 +9,7 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       output: {
-        dir: "/home/jorge/python_projects/readuce_back/",
+        dir: "../server/",
       },
     },
   },
