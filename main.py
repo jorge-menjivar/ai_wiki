@@ -114,8 +114,8 @@ async def wiki(request: Request):
         })
 
 
-@app.get("/api/wiki/{level}/{title:path}", response_class=HTMLResponse)
-async def generate_page(request: Request, level: int, title: str):
+@app.get("/api/wiki/{title:path}", response_class=HTMLResponse)
+async def generate_page(request: Request, title: str):
     title = quote(title, safe='')
     ip = "all"
     if request.client is not None:
@@ -133,7 +133,7 @@ async def generate_page(request: Request, level: int, title: str):
     raise HTTPException(status_code=403, detail="Too many requests")
 
 
-@app.post("/api/wiki/content", response_class=JSONResponse)
+@app.post("/api/resources/content", response_class=JSONResponse)
 async def get_content(request: Request, config: ContentConfig):
     ip = "all"
     if request.client is not None:
