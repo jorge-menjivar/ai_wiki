@@ -7,9 +7,17 @@ For example, in the article [https://en.wikipedia.org/wiki/Calculus](https://en.
 
 _Differential calculus is a way of finding out how something changes. It helps us figure out how fast something is changing, like how fast a car is going or how quickly the temperature is rising. It uses equations and graphs to figure out the rate of change._
 
+<div>
+    <img src="https://raw.githubusercontent.com/jorge-menjivar/ai_wiki/main/example_images/l1.png" width="1200"/>
+</div>
+
 Or it can be used to generate a summary for someone who is more familiar with calculus:
 
 _Differential calculus is a branch of calculus that deals with the study of the rates at which quantities change. It is concerned with the study of the properties of functions and their derivatives, which are used to describe the rates of change of the functions. Differential calculus is used to solve problems in many fields, including physics, engineering, economics, and biology._
+
+<div>
+    <img src="https://raw.githubusercontent.com/jorge-menjivar/ai_wiki/main/example_images/l5.png" width="1200"/>
+</div>
 
 # Getting Started
 
