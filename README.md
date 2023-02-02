@@ -1,3 +1,16 @@
+# Introduction
+
+This project aims to help people understand content in Wikipedia more easily.
+This project tries to accomplish this by generating information using AI, with the default model being GPT-3 Davinci from OpenAI, but other models can also be used. The current version generates summaries of sub sections of an article.
+
+For example, in the article [https://en.wikipedia.org/wiki/Calculus](https://en.wikipedia.org/wiki/Calculus), there is a sub section named "Differential calculus". The AI model can be used to generate a summary for a 5-year-old:
+
+_Differential calculus is a way of finding out how something changes. It helps us figure out how fast something is changing, like how fast a car is going or how quickly the temperature is rising. It uses equations and graphs to figure out the rate of change._
+
+Or it can be used to generate a summary for someone who is more familiar with calculus:
+
+_Differential calculus is a branch of calculus that deals with the study of the rates at which quantities change. It is concerned with the study of the properties of functions and their derivatives, which are used to describe the rates of change of the functions. Differential calculus is used to solve problems in many fields, including physics, engineering, economics, and biology._
+
 # Getting Started
 
 ## Prerequisites
