@@ -93,30 +93,22 @@ def overviewPromptDavinci(level: int, title: str | None):
     text = ''
 
     if level == 1:
-        text = f'Summarize "{title}" like I am 2 years old'
-
-    elif level == 2:
         text = f'Summarize "{title}" like I am 5 years old'
 
-    elif level == 3:
+    elif level == 2:
         text = f'Summarize "{title}" like I am a teenager'
 
-    elif level == 4:
+    elif level == 3:
         text = f'''
         Summarize "{title}" like I am almost knowledgeable in this field
         '''
 
-    elif level == 5:
+    elif level == 4:
         text = f'''
         Summarize "{title}" like I am knowledgeable in this field
         '''
 
-    elif level == 6:
-        text = f'''
-        Summarize "{title}" like I am almost an expert in this field
-        '''
-
-    elif level == 7:
+    elif level == 5:
         text = f'''
         Summarize "{title}" like I am an expert in this field
         '''
@@ -131,43 +123,30 @@ def sectionPromptDavinci(level: int, title: str, section: str):
     if level == 1:
         text = f'''
         I know "{title}". \
-        Tell me specifically its {section} like I am 2 years old
+        Tell me specifically its {section} like I am 5 years old
         '''
 
     elif level == 2:
         text = f'''
         I know "{title}". \
-        Tell me specifically its {section} like I am 5 years old
-        '''
-
-    elif level == 3:
-        text = f'''
-        I know "{title}". \
         Tell me specifically its {section} like I am a teenager
         '''
 
-    elif level == 4:
+    elif level == 3:
         text = f'''
         I know "{title}". \
         Tell me specifically its {section} like I am almost \
         knowledgeable in this field
         '''
 
-    elif level == 5:
+    elif level == 4:
         text = f'''
         I know "{title}". \
         Tell me specifically its {section} like I am knowledgeable \
         in this field
         '''
 
-    elif level == 6:
-        text = f'''
-        I know "{title}". \
-        Tell me specifically its {section} like I am almost an \
-        expert in this field
-        '''
-
-    elif level == 7:
+    elif level == 5:
         text = f'''
         I know "{title}". \
         Tell me specifically its {section} like I am an expert in \
