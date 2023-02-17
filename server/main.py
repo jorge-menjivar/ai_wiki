@@ -1,5 +1,5 @@
 import aiohttp
-import json
+# import json
 import openai
 import psycopg
 import uvicorn
@@ -24,8 +24,8 @@ settings = getSettings()
 _http_client_session = None
 _pg_connection = None
 
-f = open("manifest.json")
-vite_manifest = json.load(f)
+# f = open("manifest.json")
+# vite_manifest = json.load(f)
 
 openai.api_key = settings.openai_api_key
 
@@ -86,17 +86,15 @@ async def getHTTPClientSession():
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse(
-        "index.html.j2", {
-            "request": request,
-            "stylesheet": vite_manifest["index.css"]["file"],
-            "main": vite_manifest["index.html"]["file"],
-        }
-
-        # "index.dev.html.j2",
-        # {
+        # "index.html.j2", {
         #     "request": request,
+        #     "stylesheet": vite_manifest["index.css"]["file"],
+        #     "main": vite_manifest["index.html"]["file"],
         # }
-    )
+        "index.dev.html.j2",
+        {
+            "request": request,
+        })
 
 
 @app.get("/wiki/{title:path}", response_class=HTMLResponse)
