@@ -7,13 +7,5 @@ export default defineConfig({
   plugins: [react()],
   build: {
     manifest: true,
-    rollupOptions: {
-      output: {
-        dir: "../server/",
-      },
-    },
-  },
-  server: {
-    origin: "http://localhost:4000",
   },
 });

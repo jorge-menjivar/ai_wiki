@@ -83,35 +83,6 @@ async def getHTTPClientSession():
     return _http_client_session
 
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse(
-        # "index.html.j2", {
-        #     "request": request,
-        #     "stylesheet": vite_manifest["index.css"]["file"],
-        #     "main": vite_manifest["index.html"]["file"],
-        # }
-        "index.dev.html.j2",
-        {
-            "request": request,
-        })
-
-
-@app.get("/wiki/{title:path}", response_class=HTMLResponse)
-async def wiki(request: Request):
-    return templates.TemplateResponse(
-        # "index.html.j2",
-        # {
-        #     "request": request,
-        #     "stylesheet": vite_manifest["index.css"]["file"],
-        #     "main": vite_manifest["index.html"]["file"],
-        # }
-        "index.dev.html.j2",
-        {
-            "request": request,
-        })
-
-
 @app.get("/api/wiki/{title:path}", response_class=HTMLResponse)
 async def generate_page(request: Request, title: str):
     title = quote(title, safe='')

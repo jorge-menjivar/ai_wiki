@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import "vite/modulepreload-polyfill";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import parse, { domToReact } from "html-react-parser";
 import { useRef } from "react";
 import BossNav from "../components/BossNav";
 import { AISubSection } from "../components/AISubSection";
 import { AIOverview } from "../components/AIOverview";
+import axios from "axios";
 
 /**
  * @function Page
@@ -19,6 +20,7 @@ function Page() {
   const [level, setLevel] = useState<number>(3);
   const title = useRef("");
   const initialized = useRef(false);
+  const navigate = useNavigate();
 
   const updateLevel = (level: number[]) => setLevel(level[0]);
 
@@ -29,17 +31,21 @@ function Page() {
    * @returns {Promise<void>} - Fetches the content of the page.
    */
   async function fetchContent() {
-    try {
-      const res = await fetch(`/api/wiki/${params.title}`);
-      const data = await res.text();
-      setData(data);
-      // console.log(data);
-    } catch (error: any) {
-      if (error.name !== "AbortError") {
-        // TODO
-        // Non-aborted error handling goes here
-      }
-    }
+    await axios({
+      method: "get",
+      url: `${import.meta.env.VITE_API_URL}/api/wiki/${params.title}`,
+    })
+      .then(function (response) {
+        const data = response!.data;
+        setData(data);
+      })
+      .catch(function (error) {
+        console.log(error);
+        console.log(error.response.status);
+        if (error.response.status == 429) {
+          navigate(`/limiting`);
+        }
+      });
   }
 
   useEffect(() => {

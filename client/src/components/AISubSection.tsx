@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { SectionDropdown } from "./SectionDropdown";
 import styles from "/styles/components/modules/AISubSection.module.scss";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 /**
  * AISubSection Component
@@ -20,6 +22,7 @@ export const AISubSection = ({ id, title, children, page_level }: any) => {
   const [content, setContent] = useState<string>(children);
   const [model, setModel] = useState<string>("");
   const [timestamp, setTimestamp] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (fetched.current != level) {
@@ -48,25 +51,27 @@ export const AISubSection = ({ id, title, children, page_level }: any) => {
       title: title,
       content_id: id,
     };
-    console.log(JSON.stringify(body));
-    await fetch("/api/resources/content", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "true",
-      },
-      body: JSON.stringify(body),
-    }).then(async (res) => {
-      console.log(res);
-      const data = await res.json();
-      if (data.content != undefined) {
-        setContent(data.content);
-        setModel(data.model);
-        setTimestamp(data.timestamp);
-      }
-    });
-  }
 
+    await axios({
+      method: "post",
+      url: `${import.meta.env.VITE_API_URL}/api/resources/content`,
+      data: body,
+    })
+      .then(function (response) {
+        const data = response!.data;
+        if (data.content != undefined) {
+          setContent(data.content);
+          setModel(data.model);
+          setTimestamp(data.timestamp);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        if (error.response.status == 429) {
+          navigate(`/limiting`);
+        }
+      });
+  }
   /**
    * Updates the level
    * @param {number[]} level - An array of numbers representing the level
